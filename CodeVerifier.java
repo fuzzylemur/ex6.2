@@ -27,7 +27,7 @@ public class CodeVerifier {
 
 			if (lineArray.get(lineArray.size()-2).type() != RETURN)
 				throw Exception;
-			
+
 			variableStack.push(globalVars);
 			localVars = new ScopeVars();
 
