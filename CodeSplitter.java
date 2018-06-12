@@ -6,36 +6,49 @@ public class CodeSplitter {
 
 	ArrayList<Line> mainLines;
 	ArrayList<Method> methodArray;
-	LineValidator myValidator;
+	LineFactory myFactory;
 
-	void splitCode(ArrayList<Line> allLines) {
+	void splitCode(ArrayList<String> allLines) {
 
 		for (int i = 0; i < allLines.size(); i++) {
 
-			Line curLine = allLines.get(i);
+			Line curLine = myFactory.createLine(allLines.get(i));
+			curLine.setLineNum(i);
 
-			if (!myValidator.isBlank(curLine))
+			if (curLine.type() == LineType.BLANK)
 				continue;
 
-			if (myValidator.isMethod(curLine)) {
-				Method method = myValidator.createMethod(curLine);
-				methodArray.add(method);									// check return and shit
+			else if (curLine.type() == LineType.METHOD_DEF) {
+
+				Method myMethod = new Method(curLine.methodName(), curLine.varArray);
+				methodArray.add(myMethod);
 
 				int counter = 0;
-				while (!(myValidator.isClose(curLine) && counter != 0)) {
-					if (myValidator.isBlock(curLine)) {
+				while (!(curLine.type() == LineType.CLOSE  && counter != 0)) {
+
+					i++;
+					if (i >= allLines.size())
+						throw exception;
+
+					curLine = myFactory.createLine(allLines.get(i));
+					curLine.setLineNum(i);
+
+					if (curLine.type() == LineType.BLANK)
+						continue;
+
+					myMethod.addLine(curLine);
+
+					if (curLine.type() == LineType.BLOCK) {
 						counter++;
-					} else if (myValidator.isClose(curLine)) {
-						counter--;										// negative counter !!!!
+					} else if (curLine.type() == LineType.CLOSE) {
+						counter--;
+						if (counter < 0)
+							throw exception;
 					}
-					curLine = allLines.get(i++);						// Array out of bounds!!!
 				}
-				method.setEndLine(i);
 			}
 
 			mainLines.add(curLine);
 		}
 	}
-
-
 }

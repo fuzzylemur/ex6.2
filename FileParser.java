@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class FileParser {
 
 
-	ArrayList<Line> parseFile(String filePath) {
+	ArrayList<String> parseFile(String filePath) {
 
-		ArrayList<Line> lineArray = new ArrayList<>();
+		ArrayList<String> stringArray = new ArrayList<>();
 
 		File commandFile = new File(filePath);
 
@@ -21,9 +21,9 @@ public class FileParser {
 
 			String lineStr = lineReader.readLine();
 			while (lineStr != null) {
-				lineArray.add(new Line(lineReader.getLineNumber(), lineStr));
+				stringArray.add(lineStr);
 			}
-			return lineArray;
+			return stringArray;
 
 		} catch (java.io.IOException ex){
 

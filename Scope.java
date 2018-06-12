@@ -13,7 +13,7 @@ public class Scope {
 	ArrayList<Variable> myVariables;
 	ArrayList<Scope> myScopes;
 
-	boolean validateVariable(Type varType, String varName) {
+	boolean validateVariable(VarType varType, String varName) {
 
 		for (Variable var : myVariables) {
 			if (varName.equals(var.myName) && varType.equals(var.myType)){

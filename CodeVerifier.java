@@ -10,7 +10,47 @@ public class CodeVerifier {
 
 	ArrayList<Method> methodArray;
 	ArrayList<Variable> globalVarArray;
-	LineValidator myValidator;
+	LineFactory myValidator;
+
+
+	void validateScope(ScopeType scope, ArrayList<Line> lineArray) {
+
+		for (int i = 0; i < lineArray.size(); i++) {
+
+			Line curLine = mainLines.get(i);
+			LineType lineType = curLine.type();
+
+			switch (lineType) {
+
+				case (INIT): {
+					if (scope == MAIN)
+						// add to global variables
+
+					else if (scope == METHOD)
+						// add to local variables
+				}
+
+				case (ASSIGN): {
+					if (scope == MAIN)
+					// check if already initialized in global
+
+					else if (scope == METHOD)
+					// check if initialized in global and local
+				}
+
+				case (METHOD_CALL): {
+					// validate method call (name and params)
+
+					if (scope == MAIN)
+					// check if params are initialized in global variables
+
+					else if (scope == METHOD)
+					// add to cue with current global variables
+				}
+
+			}
+		}
+	}
 
 
 	void validateMainLines(){

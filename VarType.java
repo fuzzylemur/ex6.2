@@ -1,3 +1,3 @@
 package oop.ex6.main;
 
-public enum Type {}
+public enum VarType {}
