@@ -9,17 +9,8 @@ public class LineFactory {
 
 	Line createLine(String lineString) throws Exception{
 
-		Matcher chosenMatcher = null;
-		LineType chosenType = null;
-
-		for (LineType type : LineType.values()){
-			if (LineType.getMatcher(type).reset(lineString).matches()) {
-				chosenMatcher = LineType.getMatcher(type);
-				chosenType = type;
-			}
-		}
-		if (chosenType == null)
-			throw Exception;
+		LineType chosenType = determineLineType(lineString);
+		Matcher chosenMatcher = LineType.getMatcher(chosenType);
 
 		switch(chosenType) {
 
@@ -43,7 +34,20 @@ public class LineFactory {
 		throw Exception;
 	}
 
+	private LineType determineLineType(String lineString) {
 
+		LineType chosenType = null;
+
+		for (LineType type : LineType.values()){
+			if (LineType.getMatcher(type).reset(lineString).matches()) {
+				chosenType = type;
+			}
+		}
+		if (chosenType == null)
+			throw Exception;
+		return null;
+	}
+	
 	private Line variableHelper(Matcher m, LineType type){
 
 		int start = 0;
