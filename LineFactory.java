@@ -96,10 +96,10 @@ public class LineFactory {
 		while(i < m.groupCount()) {
 
 			if (m.group(i).equals(Config.FINAL)) {
-				myVars.add(new Variable(VarType.getType(m.group(i+1)), m.group(i+2), null, true));
+				myVars.add(new Variable(VarType.getType(m.group(i+1)), m.group(i+2),null,true));
 				i += 3;
 			} else {
-				myVars.add(new Variable(VarType.getType(m.group(i)), m.group(i+1), null, false));
+				myVars.add(new Variable(VarType.getType(m.group(i)), m.group(i+1),null,false));
 				i += 2;
 			}
 		}
@@ -111,7 +111,7 @@ public class LineFactory {
 		ArrayList<Variable> myVars = new ArrayList<>();
 		Matcher varMatcher = VarType.getMatcher(VarType.VAR);
 
-		int i=1;
+		int i = 1;
 		while (i < m.groupCount()) {
 
 			varMatcher.reset(m.group(i));

@@ -42,8 +42,6 @@ public class CodeVerifier {
 		}
 	}
 
-	private
-
 	void validateMethod(Method method) throws Exception {
 
 		theStack = new Stack<>();
@@ -91,7 +89,7 @@ public class CodeVerifier {
 					verifyMethodCall(curLine);
 					break;
 				}
-				throw Exception()
+				throw Exception;
 			}
 		}
 	}

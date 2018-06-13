@@ -21,8 +21,6 @@ public enum LineType {
 		this.lineMatcher = Pattern.compile(patternStr).matcher("");
 	}
 
-	static Matcher getMatcher(LineType type) {
-		return type.lineMatcher;
-	}
+	static Matcher getMatcher(LineType type) { return type.lineMatcher; }
 }
 

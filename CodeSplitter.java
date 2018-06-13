@@ -8,14 +8,14 @@ public class CodeSplitter {
 	ArrayList<Method> methodArray;
 	LineFactory myFactory;
 
-	void splitCode(ArrayList<String> allLines) {
+	void splitCode(ArrayList<String> allLines) throws Exception{
 
 		for (int i = 0; i < allLines.size(); i++) {
 
 			Line curLine = myFactory.createLine(allLines.get(i));
 			curLine.setLineNum(i);
 
-			if (curLine.type() == LineType.BLANK)
+			if (curLine.type() == LineType.COMMENT)
 				continue;
 
 			else if (curLine.type() == LineType.METHOD_DEF) {
@@ -28,12 +28,12 @@ public class CodeSplitter {
 
 					i++;
 					if (i >= allLines.size())
-						throw exception;
+						throw Exception;
 
 					curLine = myFactory.createLine(allLines.get(i));
 					curLine.setLineNum(i);
 
-					if (curLine.type() == LineType.BLANK)
+					if (curLine.type() == LineType.COMMENT)
 						continue;
 
 					if (curLine.type() == LineType.METHOD_DEF)
@@ -46,7 +46,7 @@ public class CodeSplitter {
 					} else if (curLine.type() == LineType.CLOSE) {
 						counter--;
 						if (counter < 0)
-							throw exception;
+							throw Exception;
 					}
 				}
 			}
