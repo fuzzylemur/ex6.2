@@ -13,4 +13,12 @@ public class Variable {
 		myValue = value;
 		this.isFinal = isFinal;
 	}
+
+	String getName(){return myName;}
+
+	VarType getType(){return myType;}
+
+	String getValue(){return myValue;}
+
+	Boolean isFinal(){return isFinal;}
 }

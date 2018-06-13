@@ -1,56 +1,145 @@
 package oop.ex6.main;
 
+import com.sun.org.apache.xpath.internal.VariableStack;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
+import static oop.ex6.main.LineType.RETURN;
+import static oop.ex6.main.LineType.VAR_INIT;
+
 public class CodeVerifier {
 
-	ArrayList<Line> mainLines;
-	ArrayList<Line> allLines;
-
 	ArrayList<Method> methodArray;
-	ArrayList<Variable> globalVarArray;
-	LineFactory myValidator;
+	ScopeVars globalVars;
 
+	CodeVerifier(){
+		globalVars = new ScopeVars();
+		methodArray = new ArrayList<>();
+	}
 
-	void validateScope(ScopeType scope, ArrayList<Line> lineArray) {
+	void validateScope(ArrayList<Line> lineArray, boolean isMethod) throws Exception{
 
-		for (int i = 0; i < lineArray.size(); i++) {
+		Stack<ScopeVars> variableStack = new Stack<>();
+		ScopeVars localVars;
 
-			Line curLine = mainLines.get(i);
-			LineType lineType = curLine.type();
+		if (isMethod) {
 
-			switch (lineType) {
+			if (lineArray.get(lineArray.size()-2).type() != RETURN)
+				throw Exception;
 
-				case (INIT): {
-					if (scope == MAIN)
-						// add to global variables
+			variableStack.push(globalVars);
+			localVars = new ScopeVars();
 
-					else if (scope == METHOD)
-						// add to local variables
+		} else
+			localVars = globalVars;
+
+		for (Line curLine : lineArray) {
+
+			LineType curLineType = curLine.type();
+
+			switch (curLineType) {
+
+				case (VAR_INIT): {
+
+					verifyValues(curLine.varArray());
+					localVars.add(curLine.varArray());
 				}
 
-				case (ASSIGN): {
-					if (scope == MAIN)
-					// check if already initialized in global
+				case (VAR_ASSIGN): {
 
-					else if (scope == METHOD)
-					// check if initialized in global and local
+					verifyValues(curLine.varArray());
+					variableStack.push(localVars);
+					assignHelper(variableStack, curLine.varArray().get(0));
+					localVars = variableStack.pop();
 				}
+
+				case (BLOCK): {
+
+					if (!isMethod)
+						throw Exception;
+
+					else {
+						variableStack.push(localVars);
+						if (curLine.varArray().get(0) != null)
+							assignHelper(variableStack, curLine.varArray().get(0));
+						localVars = new ScopeVars();
+					}
+				}
+
+				case (CLOSE): {
+
+					if (!isMethod)
+						throw Exception;
+
+					else {
+						localVars = variableStack.pop();
+					}
+				}
+
 
 				case (METHOD_CALL): {
-					// validate method call (name and params)
 
-					if (scope == MAIN)
-					// check if params are initialized in global variables
-
-					else if (scope == METHOD)
-					// add to cue with current global variables
+					verifyMethodCall(curLine);
 				}
 
 			}
 		}
 	}
+
+	private void verifyValues(ArrayList<Variable> varArray) {
+
+		for (Variable var : varArray){
+
+			if (var.getValue() == null)
+				continue;
+
+			// run regex again
+
+			if (VarType is variable)
+				//new variable
+				// check contains
+		}
+	}
+
+	private void assignHelper(Stack<ScopeVars> stack, Variable varToCheck) throws Exception {
+
+		int ans = 0;
+
+		for (ScopeVars scope : stack){
+			ans = scope.contains(varToCheck);
+
+			if (ans == 0)
+				throw Exception;
+
+			else if (ans == 1)
+				break;
+		}
+		if (ans != 1)
+			throw Exception;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	void validateMainLines(){

@@ -36,6 +36,9 @@ public class CodeSplitter {
 					if (curLine.type() == LineType.BLANK)
 						continue;
 
+					if (curLine.type() == LineType.METHOD_DEF)
+						throw Exception;
+
 					myMethod.addLine(curLine);
 
 					if (curLine.type() == LineType.BLOCK) {

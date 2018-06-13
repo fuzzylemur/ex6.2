@@ -70,25 +70,26 @@ public class LineFactory {
 		else if (VAR_ASSIGN_MATCHER.matches()){
 			return variableHelper(VAR_ASSIGN_MATCHER, LineType.VAR_ASSIGN);
 		}
+		else if (BLOCK_MATCHER.matches()){
+			return variableHelper(VAR_ASSIGN_MATCHER, LineType.BLOCK);
+		}
 		else if (METHOD_CALL_MATCHER.matches()){
-			return methodCallHelper(VARIABLE_MATCHER);
+			return methodCallHelper(METHOD_CALL_MATCHER);
 		}
 		else if (METHOD_DEF_MATCHER.matches()){
-			return methodDefHelper(VARIABLE_MATCHER);
+			return methodDefHelper(METHOD_DEF_MATCHER);
 		}
-		else if (BLOCK_MATCHER.matches()){
-			return new Line(block);
-		}
+
 		throw exception;
 	}
 
-	Line variableHelper(Matcher m, LineType initOrAssign){
+	private Line variableHelper(Matcher m, LineType type){
 
 		int start = 0;
 		boolean isFinal = false;
 
-		if (initOrAssign == LineType.VAR_INIT) {
-			if (m.group(0) == "final") {
+		if (type == LineType.VAR_INIT) {
+			if (m.group(0).equals("final")) {
 				isFinal = true;
 				start = 1;
 			}
@@ -108,6 +109,6 @@ public class LineFactory {
 				i += 2;
 			}
 		}
-		return new Line(initOrAssign, myVars);
+		return new Line(type, myVars);
 	}
 }

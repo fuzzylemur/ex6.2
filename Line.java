@@ -33,4 +33,7 @@ class Line {
 
 	LineType type(){return myType;}
 
+	ArrayList<Variable> varArray(){return varArray;}
+
+
 }
