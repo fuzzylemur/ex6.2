@@ -1,5 +1,6 @@
 package oop.ex6.main;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum LineType {
@@ -13,11 +14,15 @@ public enum LineType {
 	CLOSE			(Config.CLOSE_LINE),
 	BLOCK			(Config.BLOCK_LINE);
 
-	final Pattern linePattern;
+	final Matcher lineMatcher;
 
 	LineType(String patternStr) {
 
-		this.linePattern = Pattern.compile(patternStr);
+		this.lineMatcher = Pattern.compile(patternStr).matcher("");
+	}
+
+	static Matcher getMatcher(LineType type) {
+		return type.lineMatcher;
 	}
 }
 
