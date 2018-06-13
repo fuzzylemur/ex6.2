@@ -56,7 +56,7 @@ public class LineFactory {
 
 
 		if (BLANK_MATCHER.matches()){
-			return new Line(LineType.BLANK);
+			return new Line(LineType.COMMENT);
 		}
 		else if (RETURN_MATCHER.matches()){
 			return new Line(LineType.RETURN);
@@ -71,7 +71,7 @@ public class LineFactory {
 			return variableHelper(VAR_ASSIGN_MATCHER, LineType.VAR_ASSIGN);
 		}
 		else if (BLOCK_MATCHER.matches()){
-			return variableHelper(VAR_ASSIGN_MATCHER, LineType.BLOCK);
+			return blockHelper(VAR_ASSIGN_MATCHER);
 		}
 		else if (METHOD_CALL_MATCHER.matches()){
 			return methodCallHelper(METHOD_CALL_MATCHER);
@@ -111,4 +111,55 @@ public class LineFactory {
 		}
 		return new Line(type, myVars);
 	}
+
+	private Line blockHelper(Matcher m) {
+
+		ArrayList<Variable> myVars = new ArrayList<>();
+		Matcher varMatcher = VarType.getMatcher(VarType.VAR);
+
+		int i=0;
+		while (i < m.groupCount()) {
+
+			varMatcher.reset(m.group(i));
+			if (varMatcher.matches())
+				myVars.add(new Variable(VarType.BOOLEAN, m.group(i), null, false));
+		}
+		return new Line(LineType.BLOCK, myVars);
+	}
+
+	private Line methodDefHelper(Matcher m) {
+
+		ArrayList<Variable> myVars = new ArrayList<>();
+
+		int i = 1;
+		while(i < m.groupCount()) {
+
+			if (m.group(i).equals("final")) {
+				myVars.add(new Variable(VarType.getType(m.group(i+1)), m.group(i+2), null, true));
+				i += 3;
+			} else {
+				myVars.add(new Variable(VarType.getType(m.group(i)), m.group(i+1), null, false));
+				i += 2;
+			}
+		}
+		return new Line(LineType.METHOD_DEF, myVars, m.group(0));
+	}
+
+	private Line methodCallHelper(Matcher m) {
+
+		ArrayList<Variable> myVars = new ArrayList<>();
+		Matcher varMatcher = VarType.getMatcher(VarType.VAR);
+
+		int i=0;
+		while (i < m.groupCount()) {
+
+			varMatcher.reset(m.group(i));
+			if (varMatcher.matches())
+				myVars.add(new Variable(VarType.VAR, m.group(i), null, false));
+			else
+				myVars.add(new Variable(null,null, m.group(i), false));
+		}
+		return new Line(LineType.METHOD_CALL, myVars, m.group(0));
+	}
+
 }

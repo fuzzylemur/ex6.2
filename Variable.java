@@ -1,5 +1,8 @@
 package oop.ex6.main;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Variable {
 
 	VarType myType;
@@ -8,17 +11,27 @@ public class Variable {
 	boolean isFinal;
 
 	Variable(VarType type, String name, String value, boolean isFinal){
+
 		myType = type;
 		myName = name;
 		myValue = value;
 		this.isFinal = isFinal;
 	}
 
-	String getName(){return myName;}
+	boolean validateVariable() {
 
-	VarType getType(){return myType;}
+		if (isFinal && myValue == null)
+			return false;
 
-	String getValue(){return myValue;}
+		Matcher m = VarType.getMatcher(myType).reset(myValue);
+		return m.matches();
+	}
+
+	String name(){return myName;}
+
+	VarType type(){return myType;}
+
+	String value(){return myValue;}
 
 	Boolean isFinal(){return isFinal;}
 }

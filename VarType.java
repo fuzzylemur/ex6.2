@@ -1,16 +1,24 @@
 package oop.ex6.main;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public enum VarType {
-	INT ("int"),
-	STRING ("string"),
-	DOUBLE ("double"),
-	CHAR ("char"),
-	BOOLEAN ("boolean");
 
-	private final String stringRep;
+	INT 		(Config.INT_WORD, Config.INT_VALID_VALS),
+	STRING 		(Config.STRING_WORD, Config.STRING_VALID_VALS),
+	DOUBLE 		(Config.DOUBLE_WORD, Config.DOUBLE_VALID_VALS),
+	CHAR 		(Config.CHAR_WORD, Config.CHAR_VALID_VALS),
+	BOOLEAN 	(Config.BOOLEAN_WORD, Config.BOOLEAN_VALID_VALS),
+	VAR			("", Config.VAR_NAME);
 
-	VarType(String stringRep) {
+	final String stringRep;
+	final Matcher valueMatcher;
+
+	VarType(String stringRep, String patternStr) {
+
 		this.stringRep = stringRep;
+		this.valueMatcher = Pattern.compile(patternStr).matcher("");
 	}
 
 	static VarType getType(String str) {
@@ -20,6 +28,10 @@ public enum VarType {
 				return type;
 		}
 		return null;
+	}
+
+	static Matcher getMatcher(VarType type) {
+		return type.valueMatcher;
 	}
 
 	static boolean equals(VarType var1, VarType var2){

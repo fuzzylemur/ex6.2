@@ -11,20 +11,25 @@ public class ScopeVars {
 		variables = new HashMap<>();
 	}
 
+	public ScopeVars(ArrayList<Variable> vars) throws Exception{
+		variables = new HashMap<>();
+		add(vars);
+	}
+
 	public void add(ArrayList<Variable> varArray) throws Exception{
 
 		for (Variable var : varArray) {
-			if (variables.containsKey(var.getName()))
+			if (variables.containsKey(var.name()))
 				throw Exception;
 			else
-				variables.put(var.getName(), var);
+				variables.put(var.name(), var);
 		}
 	}
 
 	public int contains(Variable var){
 
-		Variable ans = variables.get(var.getName());
-		if ((ans != null) && (ans.getType().equals(var.getType()))){
+		Variable ans = variables.get(var.name());
+		if ((ans != null) && (ans.type().equals(var.type()))){
 			if (!ans.isFinal())
 				return 1;
 			else

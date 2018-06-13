@@ -17,4 +17,9 @@ public class Method extends Scope {
 	void addLine(Line lineToAdd){
 		myLines.add(lineToAdd);
 	}
+
+	ArrayList<Line> myLines(){return myLines;}
+	ArrayList<Variable> myParams(){return myParams;}
+
+
 }
