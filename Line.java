@@ -8,8 +8,7 @@ class Line {
 	private LineType myType;
 	private String methodName;
 	private ArrayList<Variable> varArray;
-
-
+	
 	Line(LineType myType){
 		this.myType = myType;
 	}
