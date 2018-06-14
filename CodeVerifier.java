@@ -140,6 +140,6 @@ public class CodeVerifier {
 			else if (ans == 1)
 				return;
 		}
-		throw new SjavacException(Config.MSG_VAR_NO_VALUE);
+		throw new SjavacException(Config.MSG_VAR_NO_INIT);
 	}
 }

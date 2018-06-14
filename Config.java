@@ -37,7 +37,7 @@ public class Config {
 	static final String MSG_VAR_INVALID_VALUE = "Invalid value for this variable type";
 	static final String MSG_VAR_FINAL_NO_VALUE = "Final variable needs to be assigned value";
 	static final String MSG_VAR_FINAL_ASSIGN = "Final variable can't be assigned again";
-	static final String MSG_VAR_NO_VALUE = "Variable hasn't been assigned a value yet";
+	static final String MSG_VAR_NO_INIT = "Variable hasn't been initialized";
 	static final String MSG_SCOPE_OPEN = "Too many scopes opened";
 	static final String MSG_SCOPE_CLOSED = "Too many scopes closed";
 
