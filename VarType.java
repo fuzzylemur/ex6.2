@@ -34,17 +34,5 @@ public enum VarType {
 		return type.valueMatcher;
 	}
 
-	static boolean equals(VarType var1, VarType var2){
-
-		if (var1 == var2)
-			return true;
-
-		else if (var1 == DOUBLE && var2 == INT)
-			return true;
-
-		else if (var1 == BOOLEAN && (var2 == INT || var2 == DOUBLE))
-			return true;
-
-		return false;
-	}
+	static String stringRep(VarType type) {return type.stringRep;}
 }

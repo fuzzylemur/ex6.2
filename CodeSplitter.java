@@ -4,49 +4,54 @@ import java.util.ArrayList;
 
 public class CodeSplitter {
 
-	ArrayList<Line> mainLines;
-	ArrayList<Method> methodArray;
-	LineFactory myFactory;
+	private ArrayList<Line> mainLines;
+	private ArrayList<Method> methodArray;
+	private LineFactory myFactory;
 
-	void splitCode(ArrayList<String> allLines) throws Exception{
+	void splitCode(ArrayList<String> allLines) throws SjavacException {
 
 		for (int i = 0; i < allLines.size(); i++) {
 
 			Line curLine = myFactory.createLine(allLines.get(i));
+			LineType type = curLine.type();
 			curLine.setLineNum(i);
 
-			if (curLine.type() == LineType.COMMENT)
+			if (type == LineType.COMMENT)
 				continue;
 
-			else if (curLine.type() == LineType.METHOD_DEF) {
+			if (type == LineType.METHOD_CALL || type == LineType.BLOCK)
+				throw new SjavacException(Config.MSG_INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
 
-				Method myMethod = new Method(curLine.methodName(), curLine.varArray);
+			else if (type == LineType.METHOD_DEF) {
+
+				Method myMethod = new Method(curLine.methodName(), curLine.varArray());
 				methodArray.add(myMethod);
 
 				int counter = 0;
-				while (!(curLine.type() == LineType.CLOSE  && counter != 0)) {
+				while (!(type == LineType.CLOSE  && counter != 0)) {
 
 					i++;
 					if (i >= allLines.size())
-						throw Exception;
+						throw new SjavacException(Config.MSG_SCOPE_OPEN);
 
 					curLine = myFactory.createLine(allLines.get(i));
+					type = curLine.type();
 					curLine.setLineNum(i);
 
-					if (curLine.type() == LineType.COMMENT)
+					if (type == LineType.COMMENT)
 						continue;
 
-					if (curLine.type() == LineType.METHOD_DEF)
-						throw Exception;
+					if (type == LineType.METHOD_DEF)
+						throw new SjavacException(Config.MSG_DEF_IN_METHOD, i);
 
 					myMethod.addLine(curLine);
 
-					if (curLine.type() == LineType.BLOCK) {
+					if (type == LineType.BLOCK) {
 						counter++;
-					} else if (curLine.type() == LineType.CLOSE) {
+					} else if (type == LineType.CLOSE) {
 						counter--;
 						if (counter < 0)
-							throw Exception;
+							throw new SjavacException(Config.MSG_SCOPE_CLOSED);
 					}
 				}
 			}

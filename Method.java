@@ -2,7 +2,7 @@ package oop.ex6.main;
 
 import java.util.ArrayList;
 
-public class Method extends Scope {
+public class Method {
 
 	private String myName;
 	private ArrayList<Variable> myParams;
@@ -12,14 +12,18 @@ public class Method extends Scope {
 
 		this.myName = myName;
 		this.myParams = myParams;
+		myLines = new ArrayList<>();
+
 	}
 
 	void addLine(Line lineToAdd){
 		myLines.add(lineToAdd);
 	}
 
-	ArrayList<Line> myLines(){return myLines;}
-	ArrayList<Variable> myParams(){return myParams;}
+	ArrayList<Line> lines() {return myLines;}
 
+	ArrayList<Variable> params() {return myParams;}
+
+	String name() {return myName;}
 
 }

@@ -26,7 +26,7 @@ public class FileParser {
 			return stringArray;
 
 		} catch (java.io.IOException ex){
-
+			System.err.println(Config.MSG_IO);
 		}
 		return null;
 	}

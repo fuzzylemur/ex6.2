@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 class Line {
 
-	int lineNum;
-	LineType myType;
-	String methodName;
-	ArrayList<Variable> varArray;
+	private int lineNum;
+	private LineType myType;
+	private String methodName;
+	private ArrayList<Variable> varArray;
 
 
 	Line(LineType myType){
@@ -29,11 +29,13 @@ class Line {
 		this.lineNum = lineNum;
 	}
 
-	String methodName(){return methodName;}
+	String methodName() {return methodName;}
 
-	LineType type(){return myType;}
+	LineType type() {return myType;}
 
-	ArrayList<Variable> varArray(){return varArray;}
+	int num() {return lineNum;}
+
+	ArrayList<Variable> varArray() {return varArray;}
 
 
 }

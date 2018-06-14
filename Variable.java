@@ -1,37 +1,28 @@
 package oop.ex6.main;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Variable {
 
-	VarType myType;
-	String myName;
-	String myValue;
-	boolean isFinal;
+	private VarType myType;
+	private String myName;
+	private String myValue;
+	private String key;
+	private boolean isFinal;
 
 	Variable(VarType type, String name, String value, boolean isFinal){
 
-		myType = type;
-		myName = name;
-		myValue = value;
+		this.myType = type;
+		this.myName = name;
+		this.myValue = value;
 		this.isFinal = isFinal;
 	}
 
-	boolean validateVariable() {
+	String name() {return myName;}
 
-		if (isFinal && myValue == null)
-			return false;
+	VarType type() {return myType;}
 
-		Matcher m = VarType.getMatcher(myType).reset(myValue);
-		return m.matches();
-	}
+	String value() {return myValue;}
 
-	String name(){return myName;}
+	Boolean isFinal() {return isFinal;}
 
-	VarType type(){return myType;}
-
-	String value(){return myValue;}
-
-	Boolean isFinal(){return isFinal;}
+	String key() {return VarType.stringRep(myType)+myName;}
 }

@@ -7,47 +7,65 @@ public class LineFactory {
 
 	LineFactory(){}
 
-	Line createLine(String lineString) throws Exception{
+	Line createLine(String lineString) throws SjavacException {
 
-		LineType chosenType = determineLineType(lineString);
+		String cleanStr = cleanLine(lineString);
+		if (cleanStr.equals(""))
+			return new Line(LineType.COMMENT);
+
+		LineType chosenType = determineLineType(cleanStr);
 		Matcher chosenMatcher = LineType.getMatcher(chosenType);
 
 		switch(chosenType) {
 
 			case COMMENT:
 				return new Line(LineType.COMMENT);
+
 			case RETURN:
 				return new Line(LineType.RETURN);
+
 			case CLOSE:
 				return new Line(LineType.CLOSE);
+
 			case VAR_INIT:
 				return variableHelper(chosenMatcher, LineType.VAR_INIT);
+
 			case VAR_ASSIGN:
 				return variableHelper(chosenMatcher, LineType.VAR_ASSIGN);
+
 			case METHOD_CALL:
 				return methodCallHelper(chosenMatcher);
+
 			case METHOD_DEF:
 				return methodDefHelper(chosenMatcher);
+
 			case BLOCK:
 				return blockHelper(chosenMatcher);
 		}
-		throw Exception;
+		throw new SjavacException(Config.MSG_LINE_FORMAT);						// TODO necessary?
 	}
 
-	private LineType determineLineType(String lineString) {
+	private String cleanLine(String lineString) {
 
-		LineType chosenType = null;
+		String[] split = lineString.split("\\s+");
+
+		for (int i=0; i < split.length; i++){
+			if (split[i].matches(Config.RESERVED_WORDS))
+				split[i] = split[i].concat(" ");
+		}
+		return String.join("", split);
+	}
+
+	private LineType determineLineType(String lineString) throws SjavacException{
 
 		for (LineType type : LineType.values()){
 			if (LineType.getMatcher(type).reset(lineString).matches()) {
-				chosenType = type;
+				return type;
 			}
 		}
-		if (chosenType == null)
-			throw Exception;
-		return null;
+		throw new SjavacException(Config.MSG_LINE_FORMAT);
 	}
-	
+
 	private Line variableHelper(Matcher m, LineType type){
 
 		int start = 0;

@@ -7,28 +7,29 @@ public class ScopeVars {
 
 	private HashMap<String,Variable> variables;
 
-	public ScopeVars(){
+	ScopeVars(){
 		variables = new HashMap<>();
 	}
 
-	public ScopeVars(ArrayList<Variable> vars) throws Exception{
+	ScopeVars(ArrayList<Variable> vars) throws SjavacException {
 		variables = new HashMap<>();
 		add(vars);
 	}
 
-	public void add(ArrayList<Variable> varArray) throws Exception{
+	void add(ArrayList<Variable> varArray) throws SjavacException {
 
 		for (Variable var : varArray) {
-			if (variables.containsKey(var.name()))
-				throw Exception;
+
+			if (variables.containsKey(var.key()))
+				throw new SjavacException(Config.MSG_VAR_ALREADY_INIT);		//TODO legal maybe?
 			else
-				variables.put(var.name(), var);
+				variables.put(var.key(), var);
 		}
 	}
 
-	public int contains(Variable var){
+	int contains(Variable var){
 
-		Variable ans = variables.get(var.name());
+		Variable ans = variables.get(var.key());
 		if ((ans != null) && (ans.type().equals(var.type()))){
 			if (!ans.isFinal())
 				return 1;
