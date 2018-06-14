@@ -3,22 +3,27 @@ package oop.ex6.main;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public enum VarType {
 
-	INT 		(Config.INT_WORD, Config.INT_VALID_VALS),
-	STRING 		(Config.STRING_WORD, Config.STRING_VALID_VALS),
-	DOUBLE 		(Config.DOUBLE_WORD, Config.DOUBLE_VALID_VALS),
-	CHAR 		(Config.CHAR_WORD, Config.CHAR_VALID_VALS),
-	BOOLEAN 	(Config.BOOLEAN_WORD, Config.BOOLEAN_VALID_VALS),
-	VAR			("", Config.VAR_NAME);
+	INT 		("int ", 					"-?[0-9]+", 			null),
+	STRING 		("string ", 				"\".*\"", 				null),
+	DOUBLE 		("double ",					"-?[0-9]+\\.[0-9]+", 	new VarType[] {INT}),
+	CHAR 		("char ", 					"\'.\'", 				null),
+	BOOLEAN 	("boolean ", 				"(?:true|false)", 		new VarType[] {INT, DOUBLE}),
+
+	VAR_NAME	("_[\\w]+|[A-Za-z]\\w*", 	"",						null);
 
 	final String stringRep;
-	final Matcher valueMatcher;
+	final String valuePattern;
+	final VarType[] validCasts;
+	Matcher valueMatcher;
 
-	VarType(String stringRep, String patternStr) {
+	VarType(String stringRep, String valuePattern, VarType[] validCasts) {
 
 		this.stringRep = stringRep;
-		this.valueMatcher = Pattern.compile(patternStr).matcher("");
+		this.valuePattern = valuePattern;
+		this.validCasts = validCasts;
 	}
 
 	static VarType getType(String str) {
@@ -31,7 +36,45 @@ public enum VarType {
 	}
 
 	static Matcher getMatcher(VarType type) {
+
+		if (type.valueMatcher != null)
+			return type.valueMatcher;
+
+		StringBuilder patternStr = new StringBuilder("(");
+		patternStr.append(type.valuePattern);
+
+		for (VarType cast : type.validCasts)
+			patternStr.append("|").append(cast.valuePattern);
+		patternStr.append(")");
+
+		type.valueMatcher = Pattern.compile(patternStr.toString()).matcher("");
 		return type.valueMatcher;
+	}
+
+	static String getAllTypesPattern() {
+
+		StringBuilder patternStr = new StringBuilder("(");
+		for (VarType type : VarType.values()) {
+			if (type == VarType.VAR_NAME)
+				continue;
+			patternStr.append(type.stringRep).append("|");
+		}
+		patternStr.deleteCharAt(patternStr.length()-1);
+		patternStr.append(")");
+		return patternStr.toString();
+	}
+
+	static String getAllValuesPattern() {
+
+		StringBuilder patternStr = new StringBuilder("(");
+		for (VarType type : VarType.values()) {
+			if (type == VarType.VAR_NAME)
+				continue;
+			patternStr.append(type.valuePattern).append("|");
+		}
+		patternStr.deleteCharAt(patternStr.length()-1);
+		patternStr.append(")");
+		return patternStr.toString();
 	}
 
 	static String stringRep(VarType type) {return type.stringRep;}

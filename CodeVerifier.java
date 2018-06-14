@@ -67,7 +67,7 @@ public class CodeVerifier {
 
 					case VAR_ASSIGN: {
 						theStack.push(localVars);
-						verifyUse(curLine.varArray().get(0), true);
+						verifyVarUse(curLine.varArray().get(0), true);
 						localVars = theStack.pop();
 						break;
 					}
@@ -75,7 +75,7 @@ public class CodeVerifier {
 					case BLOCK: {
 						theStack.push(localVars);
 						for (Variable var : curLine.varArray())
-							verifyUse(var, false);
+							verifyVarUse(var, false);
 						localVars = new ScopeVars();
 						break;
 					}
@@ -112,10 +112,10 @@ public class CodeVerifier {
 				continue;
 			}
 
-			Matcher m = VarType.getMatcher(VarType.VAR).reset(value);
+			Matcher m = VarType.getMatcher(VarType.VAR_NAME).reset(value);
 			if (m.matches()) {
-				Variable refVar = new Variable(VarType.VAR, value, null, false);
-				verifyUse(refVar, false);
+				Variable refVar = new Variable(VarType.VAR_NAME, value, null, false);
+				verifyVarUse(refVar, false);
 				return;
 			}
 
@@ -125,7 +125,7 @@ public class CodeVerifier {
 		}
 	}
 
-	private void verifyUse(Variable varToCheck, boolean assign) throws SjavacException {
+	private void verifyVarUse(Variable varToCheck, boolean assign) throws SjavacException {
 
 		for (ScopeVars scope : theStack){
 			int ans = scope.contains(varToCheck);
