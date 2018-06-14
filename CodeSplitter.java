@@ -20,7 +20,7 @@ public class CodeSplitter {
 				continue;
 
 			if (type == LineType.METHOD_CALL || type == LineType.BLOCK)
-				throw new SjavacException(Config.MSG_INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
+				throw new SjavacException(Msg.INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
 
 			else if (type == LineType.METHOD_DEF) {
 
@@ -32,7 +32,7 @@ public class CodeSplitter {
 
 					i++;
 					if (i >= allLines.size())
-						throw new SjavacException(Config.MSG_SCOPE_OPEN);
+						throw new SjavacException(Msg.SCOPE_OPEN);
 
 					curLine = myFactory.createLine(allLines.get(i));
 					type = curLine.type();
@@ -42,7 +42,7 @@ public class CodeSplitter {
 						continue;
 
 					if (type == LineType.METHOD_DEF)
-						throw new SjavacException(Config.MSG_DEF_IN_METHOD, i);
+						throw new SjavacException(Msg.DEF_IN_METHOD, i);
 
 					myMethod.addLine(curLine);
 
@@ -51,7 +51,7 @@ public class CodeSplitter {
 					} else if (type == LineType.CLOSE) {
 						counter--;
 						if (counter < 0)
-							throw new SjavacException(Config.MSG_SCOPE_CLOSED);
+							throw new SjavacException(Msg.SCOPE_CLOSED);
 					}
 				}
 			}

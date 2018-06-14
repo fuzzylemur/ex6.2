@@ -36,7 +36,7 @@ public class CodeVerifier {
 					break;
 				}
 			}
-			throw new SjavacException(Config.MSG_INVALID_MAIN_LINE, curLine.num());
+			throw new SjavacException(Msg.INVALID_MAIN_LINE, curLine.num());
 		}
 	}
 
@@ -50,7 +50,7 @@ public class CodeVerifier {
 
 		// No return before method ends.
 		if (lineArray.get(lineArray.size()-2).type() != LineType.RETURN)
-			throw new SjavacException(Config.MSG_MISSING_RETURN, lineArray.size()-2);
+			throw new SjavacException(Msg.MISSING_RETURN, lineArray.size()-2);
 
 		for (Line curLine : lineArray) {
 			try {
@@ -97,7 +97,7 @@ public class CodeVerifier {
 		}
 	}
 
-	private void verifyValues(ArrayList<Variable> varArray) throws SjavacException{
+	private void verifyValues(ArrayList<Variable> varArray) throws SjavacException{		//TODO move all this to Variable class? verify when creating a new Var
 
 		if (varArray == null)
 			return;
@@ -108,7 +108,7 @@ public class CodeVerifier {
 
 			if (value == null) {
 				if (var.isFinal())
-					throw new SjavacException(Config.MSG_VAR_FINAL_NO_VALUE);
+					throw new SjavacException(Msg.VAR_FINAL_NO_VALUE);
 				continue;
 			}
 
@@ -121,7 +121,7 @@ public class CodeVerifier {
 
 			m = VarType.getMatcher(var.type()).reset(value);
 			if (!m.matches())
-				throw new SjavacException(Config.MSG_VAR_INVALID_VALUE);
+				throw new SjavacException(Msg.VAR_INVALID_VALUE);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class CodeVerifier {
 
 			if (ans == 0) {
 				if (assign)
-					throw new SjavacException(Config.MSG_VAR_FINAL_ASSIGN);
+					throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
 				else
 					return;
 			}
@@ -140,6 +140,6 @@ public class CodeVerifier {
 			else if (ans == 1)
 				return;
 		}
-		throw new SjavacException(Config.MSG_VAR_NO_INIT);
+		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 }

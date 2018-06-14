@@ -2,20 +2,20 @@ package oop.ex6.main;
 
 public class SjavacException extends Exception{
 
-	private static final String MSG = "Exception in line ";
+	private static final String PREFIX = "Exception in line ";
 	private static final long serialVersionUID = 1L;
 
-	private String details;
+	private Msg msg;
 	private int lineNum;
 
-	SjavacException(String details){
-		this.details = details;
+	SjavacException(Msg message){
+		this.msg = message;
 		this.lineNum = -1;
 
 	}
 
-	SjavacException(String details, int lineNum){
-		this.details = details;
+	SjavacException(Msg message, int lineNum){
+		this.msg = message;
 		this.lineNum = lineNum;
 	}
 
@@ -26,8 +26,8 @@ public class SjavacException extends Exception{
 	public String getMessage() {
 
 		if (lineNum == -1)
-			return details;
+			return Msg.getString(msg);
 		else
-			return MSG + lineNum + ": " + details;
+			return PREFIX + lineNum + ": " + Msg.getString(msg);
 	}
 }

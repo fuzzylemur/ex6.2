@@ -42,7 +42,7 @@ public class LineFactory {
 			case BLOCK:
 				return blockHelper(chosenMatcher);
 		}
-		throw new SjavacException(Config.MSG_LINE_FORMAT);						// TODO necessary?
+		throw new SjavacException(Msg.LINE_FORMAT);						// TODO necessary?
 	}
 
 	private String cleanLine(String lineString) {
@@ -50,7 +50,7 @@ public class LineFactory {
 		String[] split = lineString.split("\\s+");
 
 		for (int i=0; i < split.length; i++){
-			if (split[i].matches(Config.RESERVED_WORDS))
+			if (split[i].matches(LineType.getReservedWords()))
 				split[i] = split[i].concat(" ");
 		}
 		return String.join("", split);
@@ -63,7 +63,7 @@ public class LineFactory {
 				return type;
 			}
 		}
-		throw new SjavacException(Config.MSG_LINE_FORMAT);
+		throw new SjavacException(Msg.LINE_FORMAT);
 	}
 
 	private Line variableHelper(Matcher m, LineType type){
@@ -72,7 +72,7 @@ public class LineFactory {
 		boolean isFinal = false;
 
 		if (type == LineType.VAR_INIT) {
-			if (m.group(0).equals(Config.FINAL)) {
+			if (m.group(0).equals("final ")) {
 				isFinal = true;
 				start = 1;
 			}
@@ -98,7 +98,7 @@ public class LineFactory {
 	private Line blockHelper(Matcher m) {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
-		Matcher varMatcher = VarType.getMatcher(VarType.VAR);
+		Matcher varMatcher = VarType.getMatcher(VarType.VAR_NAME);
 
 		int i=0;
 		while (i < m.groupCount()) {
@@ -117,7 +117,7 @@ public class LineFactory {
 		int i = 1;
 		while(i < m.groupCount()) {
 
-			if (m.group(i).equals(Config.FINAL)) {
+			if (m.group(i).equals("final")) {
 				myVars.add(new Variable(VarType.getType(m.group(i+1)), m.group(i+2),null,true));
 				i += 3;
 			} else {
@@ -131,14 +131,14 @@ public class LineFactory {
 	private Line methodCallHelper(Matcher m) {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
-		Matcher varMatcher = VarType.getMatcher(VarType.VAR);
+		Matcher varMatcher = VarType.getMatcher(VarType.VAR_NAME);
 
 		int i = 1;
 		while (i < m.groupCount()) {
 
 			varMatcher.reset(m.group(i));
 			if (varMatcher.matches())
-				myVars.add(new Variable(VarType.VAR, m.group(i), null, false));
+				myVars.add(new Variable(VarType.VAR_NAME, m.group(i), null, false));
 			else
 				myVars.add(new Variable(null,null, m.group(i), false));
 		}

@@ -21,7 +21,7 @@ public class ScopeVars {
 		for (Variable var : varArray) {
 
 			if (variables.containsKey(var.key()))
-				throw new SjavacException(Config.MSG_VAR_ALREADY_INIT);		//TODO legal maybe?
+				throw new SjavacException(Msg.MSG_VAR_ALREADY_INIT);		//TODO legal maybe?
 			else
 				variables.put(var.key(), var);
 		}
