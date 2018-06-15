@@ -20,6 +20,8 @@ public class Variable {
 
 	VarType type() {return myType;}
 
+	void setType(VarType type) {myType = type;}
+
 	String value() {return myValue;}
 
 	Boolean isFinal() {return isFinal;}

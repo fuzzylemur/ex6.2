@@ -78,4 +78,6 @@ public enum VarType {
 	}
 
 	static String stringRep(VarType type) {return type.stringRep;}
+
+	// TODO EQUALS
 }

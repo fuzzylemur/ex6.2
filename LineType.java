@@ -31,8 +31,10 @@ enum LineType {
 		static final String VALUES = VarType.getAllValuesPattern();
 		static final String VAR_NAME = "("+VarType.VAR_NAME.stringRep+")";
 		static final String FINAL = "(final )";
+		static final String CALL_VALUES = VALUES+"|"+VAR_NAME;
 
-		static final String VAR_ASSIGN = VAR_NAME+"="+VALUES+";";
+
+		static final String VAR_ASSIGN = VAR_NAME+"="+CALL_VALUES+";";
 		static final String NAME_OR_ASSIGN = VAR_NAME+"|"+VAR_ASSIGN;
 		static final String VAR_INIT = FINAL+"?"+TYPES+"(?:"+NAME_OR_ASSIGN+",)*"+NAME_OR_ASSIGN+";";
 
@@ -42,7 +44,6 @@ enum LineType {
 		static final String PARAM = FINAL+"?"+TYPES+VAR_NAME;
 		static final String METHOD_DEF = METHOD_WORD+METHOD_NAME+"\\("+PARAM+"(?:,"+PARAM+")*\\)\\{";
 
-		static final String CALL_VALUES = VALUES+"|"+VAR_NAME;
 		static final String METHOD_CALL = METHOD_NAME+"\\("+CALL_VALUES+"(?:,"+CALL_VALUES+")*\\)\\{";
 
 		static final String BLOCK_LINE = "(?:if|while)\\("+CALL_VALUES+"(?:(?:&&|\\|\\|)"+CALL_VALUES+")*\\{";

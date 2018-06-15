@@ -2,28 +2,23 @@ package oop.ex6.main;
 
 import java.util.ArrayList;
 
-public class Method {
+public class Method extends Scope {
 
 	private String myName;
 	private ArrayList<Variable> myParams;
-	private ArrayList<Line> myLines;
+	private MainScope main;
 
-	Method(String myName, ArrayList<Variable> myParams) {
-
+	Method(String myName, ArrayList<Variable> myParams, MainScope main) {
+		super();
 		this.myName = myName;
 		this.myParams = myParams;
-		myLines = new ArrayList<>();
-
+		this.main = main;
 	}
-
-	void addLine(Line lineToAdd){
-		myLines.add(lineToAdd);
-	}
-
-	ArrayList<Line> lines() {return myLines;}
 
 	ArrayList<Variable> params() {return myParams;}
 
 	String name() {return myName;}
+
+	MainScope main() {return main;}
 
 }

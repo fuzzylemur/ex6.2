@@ -131,16 +131,11 @@ public class LineFactory {
 	private Line methodCallHelper(Matcher m) {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
-		Matcher varMatcher = VarType.getMatcher(VarType.VAR_NAME);
 
 		int i = 1;
 		while (i < m.groupCount()) {
 
-			varMatcher.reset(m.group(i));
-			if (varMatcher.matches())
-				myVars.add(new Variable(VarType.VAR_NAME, m.group(i), null, false));
-			else
-				myVars.add(new Variable(null,null, m.group(i), false));
+			myVars.add(new Variable(null,null, m.group(i), false));
 		}
 		return new Line(LineType.METHOD_CALL, myVars, m.group(0));
 	}

@@ -2,6 +2,7 @@
 package oop.ex6.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
@@ -97,49 +98,9 @@ public class CodeVerifier {
 		}
 	}
 
-	private void verifyValues(ArrayList<Variable> varArray) throws SjavacException{		//TODO move all this to Variable class? verify when creating a new Var
+	void verifyMethodCall(Line line) throws SjavacException {
 
-		if (varArray == null)
-			return;
 
-		for (Variable var : varArray){
 
-			String value = var.value();
-
-			if (value == null) {
-				if (var.isFinal())
-					throw new SjavacException(Msg.VAR_FINAL_NO_VALUE);
-				continue;
-			}
-
-			Matcher m = VarType.getMatcher(VarType.VAR_NAME).reset(value);
-			if (m.matches()) {
-				Variable refVar = new Variable(VarType.VAR_NAME, value, null, false);
-				verifyVarUse(refVar, false);
-				return;
-			}
-
-			m = VarType.getMatcher(var.type()).reset(value);
-			if (!m.matches())
-				throw new SjavacException(Msg.VAR_INVALID_VALUE);
-		}
-	}
-
-	private void verifyVarUse(Variable varToCheck, boolean assign) throws SjavacException {
-
-		for (ScopeVars scope : theStack){
-			int ans = scope.contains(varToCheck);
-
-			if (ans == 0) {
-				if (assign)
-					throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
-				else
-					return;
-			}
-
-			else if (ans == 1)
-				return;
-		}
-		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 }

@@ -3,15 +3,15 @@ package oop.ex6.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ScopeVars {
+public class VariableHashMap {
 
 	private HashMap<String,Variable> variables;
 
-	ScopeVars(){
+	VariableHashMap(){
 		variables = new HashMap<>();
 	}
 
-	ScopeVars(ArrayList<Variable> vars) throws SjavacException {
+	VariableHashMap(ArrayList<Variable> vars) throws SjavacException {
 		variables = new HashMap<>();
 		add(vars);
 	}
@@ -21,7 +21,7 @@ public class ScopeVars {
 		for (Variable var : varArray) {
 
 			if (variables.containsKey(var.key()))
-				throw new SjavacException(Msg.MSG_VAR_ALREADY_INIT);		//TODO legal maybe?
+				throw new SjavacException(Msg.VAR_ALREADY_INIT);		//TODO legal maybe?
 			else
 				variables.put(var.key(), var);
 		}

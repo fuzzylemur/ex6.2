@@ -13,7 +13,7 @@ public class RegexTest {
 
 		for (int i=0; i<types.length; i++){
 			LineType.getMatcher(types[i]).reset(TEST);
-			if 
+			if
 		}
 	}
 }
