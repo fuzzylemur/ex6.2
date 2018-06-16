@@ -8,15 +8,16 @@ public class ScopeVariables {
 
 	private Stack<VariableHashMap> myStack;
 
-	ScopeVariables(){
+	public ScopeVariables(){
 		myStack = new Stack<>();
+		myStack.push(new VariableHashMap());
 	}
 
-	void addVars(ArrayList<Variable> varArray) throws SjavacException {
+	public void addVars(ArrayList<Variable> varArray) throws SjavacException {
 		myStack.peek().add(varArray);
 	}
 
-	private void verifyUse(Variable varToCheck, boolean assign) throws SjavacException {
+	public void verifyUse(Variable varToCheck, boolean assign) throws SjavacException {
 
 		for (VariableHashMap vars : myStack){
 			int ans = vars.contains(varToCheck);
@@ -34,7 +35,7 @@ public class ScopeVariables {
 		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 
-	private void verifyValues(ArrayList<Variable> varArray) throws SjavacException{
+	public void verifyValues(ArrayList<Variable> varArray) throws SjavacException{
 
 		if (varArray == null)
 			return;
@@ -60,5 +61,13 @@ public class ScopeVariables {
 			if (!m.matches())
 				throw new SjavacException(Msg.VAR_INVALID_VALUE);
 		}
+	}
+
+	public void openScope(){
+		myStack.push(new VariableHashMap());
+	}
+
+	public void closeScope(){
+		myStack.pop();
 	}
 }

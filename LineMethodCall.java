@@ -2,33 +2,29 @@ package oop.ex6.main;
 
 import java.util.ArrayList;
 
-public class LineMethodCall extends Line{
-
-	private ArrayList<Variable> varArray;
-	private String myName;
+public class LineMethodCall extends Line {
 
 	LineMethodCall(LineType myType, ArrayList<Variable> varArray, String myName){
-		super(myType);
-		this.varArray = varArray;
+		super(myType, varArray);
 		this.myName = myName;
 	}
 
-	void verifyLine(Scope scope) throws SjavacException{
+	void verifyLine() throws SjavacException {
 
-		Method method = scope.main().getMethod(name);
+		Method method = myScope.main().getMethod(myName);
 
 		if (method == null) {
 			throw new SjavacException(Msg.NO_METHOD);
 		}
 
 		int numParams = method.params().size();
-		if (numParams != line.varArray().size()) {
+		if (numParams != varArray.size()) {
 			throw new SjavacException(Msg.PARAM_NUM);
 		}
 
 		for (int i = 0; i < numParams; i++)
-			line.varArray().get(i).setType(method.params().get(i).type());
+			varArray.get(i).setType(method.params().get(i).type());
 
-		verifyValues(line.varArray());
+		method.variables().verifyValues(varArray);
 	}
 }

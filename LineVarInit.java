@@ -2,16 +2,13 @@ package oop.ex6.main;
 
 import java.util.ArrayList;
 
-public class LineVarInit extends Line{
-
-	private ArrayList<Variable> varArray;
+public class LineVarInit extends Line {
 
 	LineVarInit(LineType myType, ArrayList<Variable> varArray){
-		super(myType);
-		this.varArray = varArray;
+		super(myType, varArray);
 	}
 
-	void verifyLine(Scope scope) throws SjavacException{
-		scope.myVariables.add(varArray);
+	void verifyLine() throws SjavacException {
+		myScope.variables().addVars(varArray);
 	}
 }

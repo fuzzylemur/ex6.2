@@ -8,10 +8,10 @@ public class Method extends Scope {
 	private ArrayList<Variable> myParams;
 	private MainScope main;
 
-	Method(String myName, ArrayList<Variable> myParams, MainScope main) {
+	Method(String name, ArrayList<Variable> params, MainScope main) {
 		super();
-		this.myName = myName;
-		this.myParams = myParams;
+		this.myName = name;
+		this.myParams = params;
 		this.main = main;
 	}
 

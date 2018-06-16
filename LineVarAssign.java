@@ -2,16 +2,13 @@ package oop.ex6.main;
 
 import java.util.ArrayList;
 
-public class LineVarAssign extends Line{
-
-	private ArrayList<Variable> varArray;
+public class LineVarAssign extends Line {
 
 	LineVarAssign(LineType myType, ArrayList<Variable> varArray){
-		super(myType);
-		this.varArray = varArray;
+		super(myType, varArray);
 	}
 
-	void verifyLine(Scope scope) throws SjavacException{
-		scope.myVariables.verifyUse(varArray);
+	void verifyLine() throws SjavacException {
+		myScope.variables().verifyUse(varArray.get(0), true);
 	}
 }
