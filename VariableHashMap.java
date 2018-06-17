@@ -11,11 +11,6 @@ public class VariableHashMap {
 		variables = new HashMap<>();
 	}
 
-	VariableHashMap(ArrayList<Variable> vars) throws SjavacException {
-		variables = new HashMap<>();
-		add(vars);
-	}
-
 	void add(ArrayList<Variable> varArray) throws SjavacException {
 
 		for (Variable var : varArray) {
