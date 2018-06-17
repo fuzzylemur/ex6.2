@@ -84,7 +84,7 @@ public class LineFactory {
 		VarType myType = VarType.getType(m.group(2));
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = m.group(2).split(",");
+		String[] split = m.group(3).split(",");
 
 		for (String element : split){
 			String[] split2 = element.split("=",2);

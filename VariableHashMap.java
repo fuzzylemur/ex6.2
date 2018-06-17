@@ -15,22 +15,28 @@ public class VariableHashMap {
 
 		for (Variable var : varArray) {
 
-			if (variables.containsKey(var.key()))
+			if (variables.containsKey(var.name()))
 				throw new SjavacException(Msg.VAR_ALREADY_INIT);		//TODO legal maybe?
 			else
-				variables.put(var.key(), var);
+				variables.put(var.name(), var);
 		}
 	}
 
-	int contains(Variable var){
+	int contains(Variable var) {
 
-		Variable ans = variables.get(var.key());
-		if ((ans != null) && (ans.type().equals(var.type()))){
-			if (!ans.isFinal())
+		Variable ans = variables.get(var.name());
+		if (ans != null) {
+			if (var.type() != null && ans.type() != var.type())
+				return -1;
+			else if (!ans.isFinal())
 				return 1;
 			else
 				return 0;
 		} else
 			return -1;
+	}
+
+	Variable getVariable(Variable var){
+		return variables.get(var.name());
 	}
 }

@@ -35,12 +35,12 @@ public class ScopeVariables {
 		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 
-	public void verifyValues(ArrayList<Variable> varArray) throws SjavacException{
+	public void verifyValues(ArrayList<Variable> varArray) throws SjavacException {
 
 		if (varArray == null)
 			return;
 
-		for (Variable var : varArray){
+		for (Variable var : varArray) {
 
 			String value = var.value();
 
@@ -49,17 +49,27 @@ public class ScopeVariables {
 					throw new SjavacException(Msg.VAR_FINAL_NO_VALUE);
 				continue;
 			}
-
 			Matcher m = VarType.getMatcher(VarType.VAR_NAME).reset(value);
 			if (m.matches()) {
-				Variable refVar = new Variable(var.type(), value, null, false);
-				verifyUse(refVar, false);
-				return;
+				Variable ans = null;
+				for (VariableHashMap vars : myStack) {
+					ans = vars.getVariable(var);
+					if (ans != null) {
+						Variable refVar = new Variable(ans.type(), var.value(), null, false);
+						verifyUse(refVar, false);
+						break;
+					}
+				}
+				if (ans == null)
+					throw new SjavacException(Msg.VAR_INVALID_VALUE);
+				else continue;
 			}
 
-			m = VarType.getMatcher(var.type()).reset(value);
-			if (!m.matches())
-				throw new SjavacException(Msg.VAR_INVALID_VALUE);
+			if (var.type() != null) {
+				m = VarType.getMatcher(var.type()).reset(value);
+				if (!m.matches())
+					throw new SjavacException(Msg.VAR_INVALID_VALUE);
+			}
 		}
 	}
 
