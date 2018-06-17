@@ -7,11 +7,15 @@ import java.util.ArrayList;
 
 public class CodeSplitter {
 
+	private static CodeSplitter myInstance = new CodeSplitter();
 	private LineFactory myFactory;
 
-	CodeSplitter(){
-		myFactory = new LineFactory();
+	private CodeSplitter(){
+		myFactory = LineFactory.instance();
 	}
+
+	/* @return the class one and only instance */
+	static CodeSplitter instance() {return myInstance;}
 
 	MainScope splitCode(ArrayList<String> allLines) throws SjavacException {
 

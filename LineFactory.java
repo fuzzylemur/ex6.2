@@ -7,7 +7,12 @@ import java.util.regex.Matcher;
 
 public class LineFactory {
 
-	LineFactory(){}
+	private static LineFactory myInstance = new LineFactory();
+
+	private LineFactory(){}
+
+	/* @return the class one and only instance */
+	static LineFactory instance() {return myInstance;}
 
 	Line createLine(String lineString) throws SjavacException {
 

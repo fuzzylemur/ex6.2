@@ -8,6 +8,13 @@ import java.util.ArrayList;
 
 public class FileParser {
 
+	private static FileParser myInstance = new FileParser();
+
+	private FileParser(){}
+
+	/* @return the class one and only instance */
+	static FileParser instance() {return myInstance;}
+
 
 	ArrayList<String> parseFile(String filePath) {
 
