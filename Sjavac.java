@@ -11,13 +11,13 @@ public class Sjavac {
 
 	private Sjavac(String filePath) {
 
-		FileParser myParser = new FileParser();
-		mySplitter = new CodeSplitter();
+		FileParser myParser = FileParser.instance();
+		mySplitter = CodeSplitter.instance();
 		stringLines = myParser.parseFile(filePath);
 	}
 
 	private void verifyScope(Scope scope) throws SjavacException {
-
+		// check return for methods
 		for (Line line : scope.lines()){
 			line.verifyLine();
 		}
