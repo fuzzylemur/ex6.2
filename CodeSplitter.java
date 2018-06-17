@@ -69,11 +69,16 @@ public class CodeSplitter {
 							throw new SjavacException(Msg.SCOPE_CLOSED);
 					}
 					myMethod.addLine(curLine);
+
 				}
+				// look for return line  before the method ends.
+				if (myMethod.lines().get(myMethod.lines().size()).type() != LineType.RETURN)
+					throw new SjavacException(Msg.MISSING_RETURN);
+
 				main.addMethod(myMethod);
 				continue;
 			}
-			throw new SjavacException(Msg.INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
+			throw new SjavacException(Msg.INVALID_MAIN_LINE, i);
 		}
 		return main;
 	}
