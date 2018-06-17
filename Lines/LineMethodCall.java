@@ -1,17 +1,23 @@
-package oop.ex6.main;
+package oop.ex6.main.Lines;
+
+import oop.ex6.main.Method;
+import oop.ex6.main.Msg;
+import oop.ex6.main.SjavacException;
+import oop.ex6.main.Variable;
 
 import java.util.ArrayList;
 
 public class LineMethodCall extends Line {
 
-	LineMethodCall(LineType myType, ArrayList<Variable> varArray, String myName){
-		super(myType, varArray);
-		this.myName = myName;
+	public LineMethodCall(ArrayList<Variable> varArray, String methodName){
+		super(varArray);
+		this.methodName = methodName;
+		this.myType = LineType.METHOD_CALL;
 	}
 
-	void verifyLine() throws SjavacException {
+	public void verifyLine() throws SjavacException {
 
-		Method method = myScope.main().getMethod(myName);
+		Method method = myScope.main().getMethod(methodName);
 
 		if (method == null) {
 			throw new SjavacException(Msg.NO_METHOD);

@@ -18,9 +18,9 @@ public class Variable {
 
 	String name() {return myName;}
 
-	VarType type() {return myType;}
+	public VarType type() {return myType;}
 
-	void setType(VarType type) {myType = type;}
+	public void setType(VarType type) {myType = type;}
 
 	String value() {return myValue;}
 

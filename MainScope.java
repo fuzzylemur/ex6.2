@@ -7,7 +7,7 @@ public class MainScope extends Scope{
 	HashMap<String, Method> myMethods;
 
 	MainScope() {
-		super();
+		super(null);
 		myMethods = new HashMap<>();
 	}
 
@@ -19,8 +19,12 @@ public class MainScope extends Scope{
 		myMethods.put(method.name(), method);
 	}
 
-	Method getMethod(String name) {
+	public Method getMethod(String name) {
 
 		return myMethods.get(name);
+	}
+
+	public HashMap<String, Method> getMethods() {
+		return myMethods;
 	}
 }

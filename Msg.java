@@ -1,6 +1,6 @@
 package oop.ex6.main;
 
-enum Msg {
+public enum Msg {
 
 	IO 						("IO exception"),
 	VAR_ALREADY_INIT 		("Variable already initialized"),
@@ -12,6 +12,9 @@ enum Msg {
 	MISSING_RETURN 			("Missing return at method end"),
 	INVALID_MAIN_LINE 		("Invalid line for main"),
 	DEF_IN_METHOD 			("Can't define method inside method"),
+	METHOD_OVERLOAD 		(""),
+	NO_METHOD 				(""),
+	PARAM_NUM 				(""),
 	SCOPE_OPEN 				("Too many scopes opened"),
 	SCOPE_CLOSED 			("Too many scopes closed");
 

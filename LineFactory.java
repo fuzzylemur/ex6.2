@@ -1,5 +1,7 @@
 package oop.ex6.main;
 
+import oop.ex6.main.Lines.*;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -11,7 +13,7 @@ public class LineFactory {
 
 		String cleanStr = cleanLine(lineString);
 		if (cleanStr.equals(""))
-			return new Line(LineType.COMMENT);
+			return new LineComment();
 
 		LineType chosenType = determineLineType(cleanStr);
 		Matcher chosenMatcher = LineType.getMatcher(chosenType);
@@ -19,19 +21,19 @@ public class LineFactory {
 		switch(chosenType) {
 
 			case COMMENT:
-				return new Line(LineType.COMMENT);
+				return new LineComment();
 
 			case RETURN:
-				return new Line(LineType.RETURN);
+				return new LineReturn();
 
 			case CLOSE:
-				return new Line(LineType.CLOSE);
+				return new LineClose();
 
 			case VAR_INIT:
-				return variableHelper(chosenMatcher, LineType.VAR_INIT);
+				return initHelper(chosenMatcher);
 
 			case VAR_ASSIGN:
-				return variableHelper(chosenMatcher, LineType.VAR_ASSIGN);
+				return assignHelper(chosenMatcher);
 
 			case METHOD_CALL:
 				return methodCallHelper(chosenMatcher);
@@ -51,7 +53,7 @@ public class LineFactory {
 
 		for (int i=0; i < split.length; i++){
 			if (split[i].matches(LineType.getReservedWords()))
-				split[i] = split[i].concat(" ");
+				split[i] += " ";
 		}
 		return String.join("", split);
 	}
@@ -66,78 +68,79 @@ public class LineFactory {
 		throw new SjavacException(Msg.LINE_FORMAT);
 	}
 
-	private Line variableHelper(Matcher m, LineType type){
+	private Line initHelper(Matcher m){
 
 		int start = 0;
 		boolean isFinal = false;
 
-		if (type == LineType.VAR_INIT) {
-			if (m.group(0).equals("final ")) {
-				isFinal = true;
-				start = 1;
-			}
+		if (m.group(1).equals("final")) {
+			isFinal = true;
+			start = 1;
 		}
 
 		VarType myType = VarType.getType(m.group(start));
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		int i = start;
-		while(i < m.groupCount()) {
+		String[] split = m.group(start+1).split(",");
 
-			if (m.group(i + 1).equals("=")) {
-				myVars.add(new Variable(myType, m.group(i), m.group(i + 2), isFinal));
-				i += 3;
-			} else {
-				myVars.add(new Variable(myType, m.group(i), m.group(i + 1), isFinal));
-				i += 2;
-			}
+		for (String element : split){
+			String[] split2 = element.split("=",2);
+			if (split2.length == 1)
+				myVars.add(new Variable(myType, split2[0], null, isFinal));
+			else
+				myVars.add(new Variable(myType, split2[0], split2[1], isFinal));
 		}
-		return new Line(type, myVars);
+		return new LineVarInit(myVars);
 	}
+
+	private Line assignHelper(Matcher m) {
+
+		String[] split = m.group(1).split("=");
+		Variable var = new Variable(null, split[0], split[1], false);
+		return new LineVarAssign(var);
+	}
+
 
 	private Line blockHelper(Matcher m) {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
-		Matcher varMatcher = VarType.getMatcher(VarType.VAR_NAME);
 
-		int i=0;
-		while (i < m.groupCount()) {
+		String[] split = m.group(1).split("&&|\\|\\|");
 
-			varMatcher.reset(m.group(i));
-			if (varMatcher.matches())
-				myVars.add(new Variable(VarType.BOOLEAN, m.group(i), null, false));
+		for (String element : split){
+			myVars.add(new Variable(VarType.BOOLEAN, null , element, false));
 		}
-		return new Line(LineType.BLOCK, myVars);
+		return new LineBlock(myVars);
 	}
 
 	private Line methodDefHelper(Matcher m) {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		int i = 1;
-		while(i < m.groupCount()) {
+		String[] split = m.group(2).split(",");
 
-			if (m.group(i).equals("final")) {
-				myVars.add(new Variable(VarType.getType(m.group(i+1)), m.group(i+2),null,true));
-				i += 3;
-			} else {
-				myVars.add(new Variable(VarType.getType(m.group(i)), m.group(i+1),null,false));
-				i += 2;
-			}
+		for (String element : split){
+			String[] split2 = element.split(" ");
+			if (split2.length == 3)
+				myVars.add(new Variable(VarType.getType(split2[1]), split2[2], null, true));
+			else
+				myVars.add(new Variable(VarType.getType(split2[1]), split2[2], null, false));
 		}
-		return new Line(LineType.METHOD_DEF, myVars, m.group(0));
+
+		return new LineMethodDef(myVars, m.group(1));
 	}
 
 	private Line methodCallHelper(Matcher m) {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		int i = 1;
-		while (i < m.groupCount()) {
+		String[] split = m.group(2).split(",");
 
-			myVars.add(new Variable(null,null, m.group(i), false));
+		for (String element : split){
+			myVars.add(new Variable(null, null, element, false));
+
 		}
-		return new Line(LineType.METHOD_CALL, myVars, m.group(0));
+		return new LineMethodCall(myVars, m.group(1));
 	}
 
 }

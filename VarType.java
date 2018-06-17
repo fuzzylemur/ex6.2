@@ -6,16 +6,16 @@ import java.util.regex.Pattern;
 
 public enum VarType {
 
-	INT 		("int ", 					"-?[0-9]+", 			null),
-	STRING 		("string ", 				"\".*\"", 				null),
-	DOUBLE 		("double ",					"-?[0-9]+\\.[0-9]+", 	new VarType[] {INT}),
-	CHAR 		("char ", 					"\'.\'", 				null),
-	BOOLEAN 	("boolean ", 				"(?:true|false)", 		new VarType[] {INT, DOUBLE}),
+	INT 		("int", 		"-?[0-9]+", 				null),
+	STRING 		("string", 		"\".*\"", 					null),
+	DOUBLE 		("double",		"-?[0-9]+\\.[0-9]+", 		new VarType[] {INT}),
+	CHAR 		("char", 		"\'.\'", 					null),
+	BOOLEAN 	("boolean", 	"[true|false]", 			new VarType[] {INT, DOUBLE}),
 
-	VAR_NAME	("_[\\w]+|[A-Za-z]\\w*", 	"",						null);
+	VAR_NAME	("name", 		"_[\\w]+|[A-Za-z]\\w*",		null);
 
 	final String stringRep;
-	final String valuePattern;
+	public final String valuePattern;
 	final VarType[] validCasts;
 	Matcher valueMatcher;
 
@@ -40,7 +40,7 @@ public enum VarType {
 		if (type.valueMatcher != null)
 			return type.valueMatcher;
 
-		StringBuilder patternStr = new StringBuilder("(");
+		StringBuilder patternStr = new StringBuilder("(?:");
 		patternStr.append(type.valuePattern);
 
 		for (VarType cast : type.validCasts)
@@ -51,9 +51,9 @@ public enum VarType {
 		return type.valueMatcher;
 	}
 
-	static String getAllTypesPattern() {
+	public static String getAllTypesPattern() {
 
-		StringBuilder patternStr = new StringBuilder("(");
+		StringBuilder patternStr = new StringBuilder("(?:");
 		for (VarType type : VarType.values()) {
 			if (type == VarType.VAR_NAME)
 				continue;
@@ -64,16 +64,15 @@ public enum VarType {
 		return patternStr.toString();
 	}
 
-	static String getAllValuesPattern() {
+	public static String getAllValuesPattern() {
 
-		StringBuilder patternStr = new StringBuilder("(");
+		StringBuilder patternStr = new StringBuilder("(?:");
 		for (VarType type : VarType.values()) {
-			if (type == VarType.VAR_NAME)
-				continue;
 			patternStr.append(type.valuePattern).append("|");
 		}
 		patternStr.deleteCharAt(patternStr.length()-1);
 		patternStr.append(")");
+
 		return patternStr.toString();
 	}
 

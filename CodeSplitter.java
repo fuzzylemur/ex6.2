@@ -1,14 +1,17 @@
 package oop.ex6.main;
 
+import oop.ex6.main.Lines.Line;
+import oop.ex6.main.Lines.LineType;
+
 import java.util.ArrayList;
 
 public class CodeSplitter {
 
-	private ArrayList<Line> mainLines;
-	private ArrayList<Method> methodArray;
 	private LineFactory myFactory;
 
-	void splitCode(ArrayList<String> allLines) throws SjavacException {
+	MainScope splitCode(ArrayList<String> allLines) throws SjavacException {
+
+		MainScope main = new MainScope();
 
 		for (int i = 0; i < allLines.size(); i++) {
 
@@ -19,13 +22,14 @@ public class CodeSplitter {
 			if (type == LineType.COMMENT)
 				continue;
 
-			if (type == LineType.METHOD_CALL || type == LineType.BLOCK)
-				throw new SjavacException(Msg.INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
+			if (type == LineType.VAR_INIT || type == LineType.VAR_ASSIGN) {
+				main.addLine(curLine);
+				curLine.setScope(main);
+			}
 
 			else if (type == LineType.METHOD_DEF) {
 
-				Method myMethod = new Method(curLine.methodName(), curLine.varArray());
-				methodArray.add(myMethod);
+				Method myMethod = new Method(curLine.methodName(), curLine.varArray(), main);
 
 				int counter = 0;
 				while (!(type == LineType.CLOSE  && counter != 0)) {
@@ -37,14 +41,13 @@ public class CodeSplitter {
 					curLine = myFactory.createLine(allLines.get(i));
 					type = curLine.type();
 					curLine.setLineNum(i);
+					curLine.setScope(myMethod);
 
 					if (type == LineType.COMMENT)
 						continue;
 
 					if (type == LineType.METHOD_DEF)
 						throw new SjavacException(Msg.DEF_IN_METHOD, i);
-
-					myMethod.addLine(curLine);
 
 					if (type == LineType.BLOCK) {
 						counter++;
@@ -53,10 +56,12 @@ public class CodeSplitter {
 						if (counter < 0)
 							throw new SjavacException(Msg.SCOPE_CLOSED);
 					}
+					myMethod.addLine(curLine);
 				}
+				main.addMethod(myMethod);
 			}
-
-			mainLines.add(curLine);
+			throw new SjavacException(Msg.INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
 		}
+		return main;
 	}
 }

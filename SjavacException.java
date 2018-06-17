@@ -8,13 +8,13 @@ public class SjavacException extends Exception{
 	private Msg msg;
 	private int lineNum;
 
-	SjavacException(Msg message){
+	public SjavacException(Msg message){
 		this.msg = message;
 		this.lineNum = -1;
 
 	}
 
-	SjavacException(Msg message, int lineNum){
+	public SjavacException(Msg message, int lineNum){
 		this.msg = message;
 		this.lineNum = lineNum;
 	}
