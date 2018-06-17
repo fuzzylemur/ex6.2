@@ -9,15 +9,21 @@ public class CodeSplitter {
 
 	private LineFactory myFactory;
 
+	CodeSplitter(){
+		myFactory = new LineFactory();
+	}
+
 	MainScope splitCode(ArrayList<String> allLines) throws SjavacException {
 
 		MainScope main = new MainScope();
 
 		for (int i = 0; i < allLines.size(); i++) {
 
+			if (allLines.get(i).matches("\\s*")) continue;
+
 			Line curLine = myFactory.createLine(allLines.get(i));
 			LineType type = curLine.type();
-			curLine.setLineNum(i);
+			curLine.setLineNum(i+1);
 
 			if (type == LineType.COMMENT)
 				continue;
@@ -25,6 +31,7 @@ public class CodeSplitter {
 			if (type == LineType.VAR_INIT || type == LineType.VAR_ASSIGN) {
 				main.addLine(curLine);
 				curLine.setScope(main);
+				continue;
 			}
 
 			else if (type == LineType.METHOD_DEF) {
@@ -38,9 +45,10 @@ public class CodeSplitter {
 					if (i >= allLines.size())
 						throw new SjavacException(Msg.SCOPE_OPEN);
 
+					if (allLines.get(i).matches("\\s*")) continue;
 					curLine = myFactory.createLine(allLines.get(i));
 					type = curLine.type();
-					curLine.setLineNum(i);
+					curLine.setLineNum(i+1);
 					curLine.setScope(myMethod);
 
 					if (type == LineType.COMMENT)
@@ -59,6 +67,7 @@ public class CodeSplitter {
 					myMethod.addLine(curLine);
 				}
 				main.addMethod(myMethod);
+				continue;
 			}
 			throw new SjavacException(Msg.INVALID_MAIN_LINE, i);			// TODO duplicate case with verifier
 		}

@@ -14,7 +14,9 @@ public abstract class Line {
 	protected LineType myType;
 	protected ArrayList<Variable> varArray;
 
-	public Line(){}
+	public Line(){
+		varArray = new ArrayList<>();
+	}
 
 	public Line(ArrayList<Variable> varArray){
 		this.varArray = varArray;

@@ -43,10 +43,12 @@ public enum VarType {
 		StringBuilder patternStr = new StringBuilder("(?:");
 		patternStr.append(type.valuePattern);
 
-		for (VarType cast : type.validCasts)
-			patternStr.append("|").append(cast.valuePattern);
+		if (type.validCasts != null) {
+			for (VarType cast : type.validCasts)
+				patternStr.append("|").append(cast.valuePattern);
+		}
 		patternStr.append(")");
-
+		
 		type.valueMatcher = Pattern.compile(patternStr.toString()).matcher("");
 		return type.valueMatcher;
 	}

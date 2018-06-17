@@ -70,18 +70,16 @@ public class LineFactory {
 
 	private Line initHelper(Matcher m){
 
-		int start = 0;
 		boolean isFinal = false;
 
-		if (m.group(1).equals("final")) {
+		if (m.group(1) != null) {
 			isFinal = true;
-			start = 1;
 		}
 
-		VarType myType = VarType.getType(m.group(start));
+		VarType myType = VarType.getType(m.group(2));
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = m.group(start+1).split(",");
+		String[] split = m.group(2).split(",");
 
 		for (String element : split){
 			String[] split2 = element.split("=",2);

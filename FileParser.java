@@ -22,6 +22,7 @@ public class FileParser {
 			String lineStr = lineReader.readLine();
 			while (lineStr != null) {
 				stringArray.add(lineStr);
+				lineStr = lineReader.readLine();
 			}
 			return stringArray;
 

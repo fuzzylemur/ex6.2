@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class LineVarAssign extends Line {
 
 	public LineVarAssign(Variable var){
+		super();
 		varArray.add(var);
 		myType = LineType.VAR_ASSIGN;
 	}

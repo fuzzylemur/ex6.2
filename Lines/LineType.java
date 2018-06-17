@@ -33,20 +33,22 @@ public enum LineType {
 		static final String VALUES = VarType.getAllValuesPattern();
 		static final String VAR_NAME = VarType.VAR_NAME.valuePattern;
 		static final String FINAL = "final";
+		static final String CONDITIONS = "if|while";
 
-		static final String VAR_ASSIGN = VAR_NAME+"="+VALUES+";";
-		static final String NAME_OR_ASSIGN = VAR_NAME+"|"+VAR_ASSIGN;
-		static final String VAR_INIT = FINAL+"?"+TYPES+"(?:"+NAME_OR_ASSIGN+",)*"+NAME_OR_ASSIGN+";";
+		static final String ASSIGN = "(?:"+VAR_NAME+"="+VALUES+")";
+		static final String NAME_OR_ASSIGN = "(?:"+VAR_NAME+"|"+ASSIGN+")";
 
-		static final String METHOD_NAME = "([A-Za-z]\\w*)";
-		static final String METHOD_WORD = "void ";
+		static final String VAR_ASSIGN = "(("+ASSIGN+"));";
+		static final String VAR_INIT = "(?:("+FINAL+") )?("+TYPES+") (((?:"+NAME_OR_ASSIGN+",)*"+NAME_OR_ASSIGN+"));";
+		static final String BLOCK_LINE = "(?:"+CONDITIONS+")\\(("+VALUES+"((?:(?:&&|\\|\\|)"+VALUES+")*))\\)\\{";
 
-		static final String PARAM = FINAL+"?"+TYPES+VAR_NAME;
-		static final String METHOD_DEF = METHOD_WORD+METHOD_NAME+"\\("+PARAM+"(?:,"+PARAM+")*\\)\\{";
+		static final String METHOD_NAME = "[A-Za-z]\\w*";
+		static final String METHOD_WORD = "void";
 
-		static final String METHOD_CALL = METHOD_NAME+"\\("+VALUES+"(?:,"+VALUES+")*\\)\\{";
+		static final String PARAM = "(?:(?:"+FINAL+" )?"+TYPES+" "+VAR_NAME+")";
+		static final String METHOD_DEF = "(?:"+METHOD_WORD+" )("+METHOD_NAME+")\\((?:"+PARAM+"(?:,"+PARAM+")*)\\)\\{";
 
-		static final String BLOCK_LINE = "(?:if|while)\\("+VALUES+"(?:(?:&&|\\|\\|)"+VALUES+")*\\{";
+		static final String METHOD_CALL = METHOD_NAME+"\\("+VALUES+"(?:,"+VALUES+")*\\)\\;";
 
 		static final String COMMENT_LINE = "//.*";
 		static final String RETURN_LINE = "return;";
@@ -55,4 +57,3 @@ public enum LineType {
 		static final String RESERVED_WORDS = FINAL+"|"+TYPES+"|"+METHOD_WORD;
 	}
 }
-
