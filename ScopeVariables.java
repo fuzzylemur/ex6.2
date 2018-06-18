@@ -13,10 +13,15 @@ public class ScopeVariables {
 		myStack.push(new VariableHashMap());
 	}
 
+	VariableHashMap getMap(){return myStack.peek();}
+
+	void addMap(VariableHashMap map){
+		myStack.pop();
+		myStack.push(map);
+		myStack.push(new VariableHashMap());
+	}
+
 	public void addVars(ArrayList<Variable> varArray) throws SjavacException {
-		for (Variable var : varArray) {
-			verifyValue(var);
-		}
 		myStack.peek().add(varArray);
 	}
 
@@ -32,6 +37,7 @@ public class ScopeVariables {
 		for (VariableHashMap vars : myStack) {
 			Variable ans = vars.contains(var);
 			if (ans != null) {
+				System.out.println(ans.type() + "  " + ans.isFinal());
 				if (ans.isFinal())
 					throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
 				else

@@ -28,8 +28,9 @@ public class Sjavac {
 		verifyScope(main);
 
 		for (Method method : main.getMethods().values()){
-
+			method.variables().addMap(main.variables().getMap());
 			method.variables().addVars(method.params());
+
 			verifyScope(method);
 		}
 	}

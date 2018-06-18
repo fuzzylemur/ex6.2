@@ -58,7 +58,14 @@ public class CodeSplitter {
 						throw new SjavacException(Msg.SCOPE_OPEN);
 
 					if (allLines.get(i).matches("\\s*")) continue;
-					curLine = myFactory.createLine(allLines.get(i));
+
+					try {
+						curLine = myFactory.createLine(allLines.get(i));
+					} catch (SjavacException ex){
+						ex.setLineNum(i+1);
+						throw ex;
+					}
+
 					type = curLine.type();
 					curLine.setLineNum(i+1);
 					curLine.setScope(myMethod);

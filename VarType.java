@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public enum VarType {
 
 	INT 		("int", 		"-?[0-9]+", 				null),
-	STRING 		("string", 		"\".*\"", 					null),
+	STRING 		("String", 		"\".*\"", 					null),
 	DOUBLE 		("double",		"-?[0-9]+\\.[0-9]+", 		new VarType[] {INT}),
 	CHAR 		("char", 		"\'.\'", 					null),
 	BOOLEAN 	("boolean", 	"true|false", 				new VarType[] {INT, DOUBLE}),
