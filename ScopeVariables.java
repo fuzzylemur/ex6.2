@@ -47,11 +47,11 @@ public class ScopeVariables {
 	}
 
 	public void verifyUse(Variable varToCheck) throws SjavacException {
-
+		System.out.println(varToCheck.type() + " " + varToCheck.name());
 		for (VariableHashMap vars : myStack){
 
 			Variable ans = vars.contains(varToCheck);
-			if (ans != null)
+			if (ans != null && ans.type().equals(varToCheck.type())) //TODO: run over equals!
 				return;
 		}
 		throw new SjavacException(Msg.VAR_NO_INIT);
