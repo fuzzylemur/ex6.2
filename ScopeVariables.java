@@ -1,6 +1,7 @@
 package oop.ex6.main;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
@@ -33,8 +34,9 @@ public class ScopeVariables {
 	}
 
 	private VarType findType(Variable var) throws SjavacException{
-
-		for (VariableHashMap vars : myStack) {
+		//if you ask your self... the stupid stack iterator is itering itself from bottom up.
+		for (ListIterator<VariableHashMap> iter = myStack.listIterator(myStack.size()); iter.hasPrevious();) {
+			VariableHashMap vars = iter.previous();
 			Variable ans = vars.contains(var);
 			if (ans != null) {
 				if (ans.isFinal())
@@ -46,12 +48,12 @@ public class ScopeVariables {
 		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 
-	public void verifyUse(Variable varToCheck) throws SjavacException {
-		System.out.println(varToCheck.type() + " " + varToCheck.name());
-		for (VariableHashMap vars : myStack){
+	private void verifyUse(Variable varToCheck) throws SjavacException {
+		for (ListIterator<VariableHashMap> iter = myStack.listIterator(myStack.size()); iter.hasPrevious();) {
+			VariableHashMap vars = iter.previous();
 
 			Variable ans = vars.contains(varToCheck);
-			if (ans != null && ans.type().equals(varToCheck.type())) //TODO: run over equals!
+			if (ans != null && varToCheck.type().equals(ans.type()))
 				return;
 		}
 		throw new SjavacException(Msg.VAR_NO_INIT);
