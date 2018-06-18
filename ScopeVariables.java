@@ -10,11 +10,16 @@ public class ScopeVariables {
 
 	ScopeVariables(){
 		myStack = new Stack<>();
+		myStack.push(new VariableHashMap());
 	}
 
 	VariableHashMap getMap(){return myStack.peek();}
 
-	void addMap(VariableHashMap map){myStack.push(map);}
+	void addMap(VariableHashMap map){
+		myStack.pop();
+		myStack.push(map);
+		myStack.push(new VariableHashMap());
+	}
 
 	public void addVars(ArrayList<Variable> varArray) throws SjavacException {
 		myStack.peek().add(varArray);

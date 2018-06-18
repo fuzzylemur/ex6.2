@@ -18,7 +18,6 @@ public class Sjavac {
 
 	private void verifyScope(Scope scope) throws SjavacException {
 
-		scope.variables().openScope();
 		for (Line line : scope.lines()) {
 			line.verifyLinePlus();
 		}
