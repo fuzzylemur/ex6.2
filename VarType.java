@@ -80,5 +80,18 @@ public enum VarType {
 
 	static String stringRep(VarType type) {return type.stringRep;}
 
-	// TODO EQUALS
+	public boolean equals(VarType toCompare){
+
+		if (this == toCompare) {
+			return true;
+
+		} else if (this.validCasts == null) {
+			return false;
+
+		} else {
+			for (VarType type : this.validCasts)
+				if (toCompare == type) return true;
+		}
+		return false;
+	}
 }
