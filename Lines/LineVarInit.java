@@ -14,7 +14,6 @@ public class LineVarInit extends Line {
 	}
 
 	public void verifyLine() throws SjavacException {
-		myScope.variables().verifyValues(varArray);
 		myScope.variables().addVars(varArray);
 	}
 }

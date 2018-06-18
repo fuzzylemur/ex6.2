@@ -31,6 +31,7 @@ public class LineMethodCall extends Line {
 		for (int i = 0; i < numParams; i++)
 			varArray.get(i).setType(method.params().get(i).type());
 
-		method.variables().verifyValues(varArray);
+		for (Variable var : varArray)
+			myScope.variables().verifyValue(var);
 	}
 }
