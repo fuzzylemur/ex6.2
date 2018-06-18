@@ -17,7 +17,8 @@ public class Sjavac {
 	}
 
 	private void verifyScope(Scope scope) throws SjavacException {
-		// check return for methods
+
+		scope.variables().openScope();
 		for (Line line : scope.lines()) {
 			line.verifyLinePlus();
 		}
@@ -28,8 +29,8 @@ public class Sjavac {
 		verifyScope(main);
 
 		for (Method method : main.getMethods().values()){
-			method.variables().addMap(main.variables().getMap());
-			method.variables().addVars(method.params());
+			method.variables().addMap(main.variables().getMap()); // Adds the global variables to the method dataBase
+			method.variables().addVars(method.params());     // Adds the variables initialized in the method def line
 
 			verifyScope(method);
 		}
