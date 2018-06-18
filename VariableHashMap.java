@@ -22,6 +22,7 @@ public class VariableHashMap {
 		}
 	}
 
+	/*
 	int contains(Variable var) {
 
 		Variable ans = variables.get(var.name());
@@ -32,9 +33,9 @@ public class VariableHashMap {
 				return 0;
 		} else
 			return -1;
-	}
+	}*/
 
-	Variable getVariable(Variable var){
+	Variable contains(Variable var){
 		return variables.get(var.name());
 	}
 }

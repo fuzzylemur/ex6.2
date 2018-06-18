@@ -25,37 +25,28 @@ public class ScopeVariables {
 		VarType myType = findType(varToCheck);
 		varToCheck.setType(myType);
 		verifyValue(varToCheck);
-
-		for (VariableHashMap vars : myStack){
-
-			int ans = vars.contains(varToCheck);
-
-			if (ans == 0)
-				throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
-			else if (ans == 1)
-				return;
-		}
-		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 
-	private VarType findType(Variable var){
+	private VarType findType(Variable var) throws SjavacException{
 
 		for (VariableHashMap vars : myStack) {
-			Variable ans = vars.getVariable(var);
+			Variable ans = vars.contains(var);
 			if (ans != null) {
-				return ans.type();
+				if (ans.isFinal())
+					throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
+				else
+					return ans.type();
 			}
 		}
-		return null;
+		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
 
 	public void verifyUse(Variable varToCheck) throws SjavacException {
 
 		for (VariableHashMap vars : myStack){
 
-			int ans = vars.contains(varToCheck);
-
-			if (ans == 0 || ans == 1)
+			Variable ans = vars.contains(varToCheck);
+			if (ans != null)
 				return;
 		}
 		throw new SjavacException(Msg.VAR_NO_INIT);
