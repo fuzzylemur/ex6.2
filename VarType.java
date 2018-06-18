@@ -48,7 +48,7 @@ public enum VarType {
 				patternStr.append("|").append(cast.valuePattern);
 		}
 		patternStr.append(")");
-		
+
 		type.valueMatcher = Pattern.compile(patternStr.toString()).matcher("");
 		return type.valueMatcher;
 	}

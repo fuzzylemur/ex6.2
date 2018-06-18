@@ -45,15 +45,17 @@ public enum LineType {
 		static final String METHOD_NAME = "[A-Za-z]\\w*";
 		static final String METHOD_WORD = "void";
 
-		static final String PARAM = "(?:(?:"+FINAL+" )?"+TYPES+" "+VAR_NAME+")";
-		static final String METHOD_DEF = "(?:"+METHOD_WORD+" )("+METHOD_NAME+")\\((?:"+PARAM+"(?:,"+PARAM+")*)\\)\\{";
+		static final String PARAM = "(?:"+FINAL+" )?(?:"+TYPES+" )(?:"+VAR_NAME+")";
+		static final String ONE_OR_MORE_PARAMS = "("+PARAM+"(?:,"+PARAM+")*)";
+		static final String METHOD_DEF = METHOD_WORD+" ("+METHOD_NAME+")\\(("+ONE_OR_MORE_PARAMS+")?\\)\\{";
 
-		static final String METHOD_CALL = METHOD_NAME+"\\("+VALUES+"(?:,"+VALUES+")*\\)\\;";
+		static final String ONE_OR_MORE_VALUES = "("+VALUES+"(?:,"+VALUES+")*)";
+		static final String METHOD_CALL = "("+METHOD_NAME+")\\(("+ONE_OR_MORE_VALUES+")?\\)\\;";
 
-		static final String COMMENT_LINE = "//.*";
+		static final String COMMENT_LINE = "//BLA";
 		static final String RETURN_LINE = "return;";
 		static final String CLOSE_LINE = "\\}";
 
-		static final String RESERVED_WORDS = FINAL+"|"+TYPES+"|"+METHOD_WORD;
+		static final String RESERVED_WORDS = FINAL+"|"+TYPES+"|"+METHOD_WORD+"|"+VAR_NAME;
 	}
 }

@@ -12,17 +12,15 @@ public enum Msg {
 	MISSING_RETURN 			("Missing return at method end"),
 	INVALID_MAIN_LINE 		("Invalid line for main"),
 	DEF_IN_METHOD 			("Can't define method inside method"),
-	METHOD_OVERLOAD 		(""),
-	NO_METHOD 				(""),
-	PARAM_NUM 				(""),
+	METHOD_OVERLOAD 		("Can't name two methods with the same name"),
+	NO_METHOD 				("No such method was defined"),
+	PARAM_NUM 				("Wrong number of parameters"),
 	SCOPE_OPEN 				("Too many scopes opened"),
 	SCOPE_CLOSED 			("Too many scopes closed");
 
 	String msgString;
 
-	Msg(String msgString){
-		this.msgString = msgString;
-	}
+	Msg(String msgString){this.msgString = msgString;}
 
 	static String getString(Msg m) {return m.msgString;}
 }

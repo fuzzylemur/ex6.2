@@ -10,6 +10,7 @@ public class LineMethodDef extends Line {
 	public LineMethodDef(ArrayList<Variable> varArray, String methodName){
 		super(varArray);
 		this.methodName = methodName;
+		myType = LineType.METHOD_DEF;
 	}
 
 	public void verifyLine() throws SjavacException {}

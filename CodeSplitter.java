@@ -25,8 +25,15 @@ public class CodeSplitter {
 
 			if (allLines.get(i).matches("\\s*")) continue;
 
-			Line curLine = myFactory.createLine(allLines.get(i));
+			Line curLine;
+			try {
+				curLine = myFactory.createLine(allLines.get(i));
+			} catch (SjavacException ex){
+				ex.setLineNum(i+1);
+				throw ex;
+			}
 			LineType type = curLine.type();
+
 			curLine.setLineNum(i+1);
 
 			if (type == LineType.COMMENT)
@@ -42,8 +49,9 @@ public class CodeSplitter {
 
 				Method myMethod = new Method(curLine.methodName(), curLine.varArray(), main);
 
-				int counter = 0;
-				while (!(type == LineType.CLOSE  && counter != 0)) {
+				int counter = 1;
+
+				while (type != LineType.CLOSE || counter != 0) {
 
 					i++;
 					if (i >= allLines.size())
@@ -59,7 +67,7 @@ public class CodeSplitter {
 						continue;
 
 					if (type == LineType.METHOD_DEF)
-						throw new SjavacException(Msg.DEF_IN_METHOD, i);
+						throw new SjavacException(Msg.DEF_IN_METHOD, i+1);
 
 					if (type == LineType.BLOCK) {
 						counter++;
@@ -72,13 +80,15 @@ public class CodeSplitter {
 
 				}
 				// look for return line  before the method ends.
-				if (myMethod.lines().get(myMethod.lines().size()).type() != LineType.RETURN)
+				if (myMethod.lines().size() < 2)
+					throw new SjavacException(Msg.MISSING_RETURN);
+				if (myMethod.lines().get(myMethod.lines().size()-2).type() != LineType.RETURN)
 					throw new SjavacException(Msg.MISSING_RETURN);
 
 				main.addMethod(myMethod);
 				continue;
 			}
-			throw new SjavacException(Msg.INVALID_MAIN_LINE, i);
+			throw new SjavacException(Msg.INVALID_MAIN_LINE, i+1);
 		}
 		return main;
 	}

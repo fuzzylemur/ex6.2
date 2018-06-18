@@ -9,6 +9,7 @@ public class LineBlock extends Line {
 
 	public LineBlock(ArrayList<Variable> varArray){
 		super(varArray);
+		myType = LineType.BLOCK;
 	}
 
 	public void verifyLine() throws SjavacException {

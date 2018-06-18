@@ -16,6 +16,9 @@ public class LineFactory {
 
 	Line createLine(String lineString) throws SjavacException {
 
+		if (lineString.matches("//.*"))
+			return new LineComment();
+
 		String cleanStr = cleanLine(lineString);
 		if (cleanStr.equals(""))
 			return new LineComment();
@@ -24,9 +27,6 @@ public class LineFactory {
 		Matcher chosenMatcher = LineType.getMatcher(chosenType);
 
 		switch(chosenType) {
-
-			case COMMENT:
-				return new LineComment();
 
 			case RETURN:
 				return new LineReturn();
@@ -49,16 +49,17 @@ public class LineFactory {
 			case BLOCK:
 				return blockHelper(chosenMatcher);
 		}
-		throw new SjavacException(Msg.LINE_FORMAT);						// TODO necessary?
+		throw new SjavacException(Msg.LINE_FORMAT);
 	}
 
 	private String cleanLine(String lineString) {
 
-		String[] split = lineString.split("\\s+");
+		String[] split = lineString.split("\\s");
 
 		for (int i=0; i < split.length; i++){
-			if (split[i].matches(LineType.getReservedWords()))
+			if (split[i].matches(".*(?:"+LineType.getReservedWords()+")")) {
 				split[i] += " ";
+			}
 		}
 		return String.join("", split);
 	}
@@ -67,6 +68,12 @@ public class LineFactory {
 
 		for (LineType type : LineType.values()){
 			if (LineType.getMatcher(type).reset(lineString).matches()) {
+
+				System.out.println(type.name());
+				for (int i = 0; i < LineType.getMatcher(type).groupCount(); i++) {
+					System.out.println(i + ": " + LineType.getMatcher(type).group(i));
+				}
+
 				return type;
 			}
 		}
@@ -120,14 +127,16 @@ public class LineFactory {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = m.group(2).split(",");
+		if (m.group(2) != null) {
 
-		for (String element : split){
-			String[] split2 = element.split(" ");
-			if (split2.length == 3)
-				myVars.add(new Variable(VarType.getType(split2[1]), split2[2], null, true));
-			else
-				myVars.add(new Variable(VarType.getType(split2[1]), split2[2], null, false));
+			String[] split = m.group(2).split(",");
+			for (String element : split) {
+				String[] split2 = element.split(" ");
+				if (split2.length == 3)
+					myVars.add(new Variable(VarType.getType(split2[0]), split2[1], null, true));
+				else
+					myVars.add(new Variable(VarType.getType(split2[0]), split2[1], null, false));
+			}
 		}
 
 		return new LineMethodDef(myVars, m.group(1));
@@ -137,10 +146,12 @@ public class LineFactory {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = m.group(2).split(",");
+		if (m.group(2) != null) {
 
-		for (String element : split){
-			myVars.add(new Variable(null, null, element, false));
+			String[] split = m.group(2).split(",");
+
+			for (String element : split)
+				myVars.add(new Variable(null, null, element, false));
 
 		}
 		return new LineMethodCall(myVars, m.group(1));
