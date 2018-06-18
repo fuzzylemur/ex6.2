@@ -15,7 +15,7 @@ public class LineBlock extends Line {
 	public void verifyLine() throws SjavacException {
 		for (Variable var : varArray) {
 			myScope.variables().verifyValue(var); // one of them is unnecessary
-			myScope.variables().verifyUse(var);
+			//myScope.variables().verifyUse(var);
 		}
 		myScope.variables().openScope();
 	}

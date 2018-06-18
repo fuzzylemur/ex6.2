@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class Line {
 
-	private int lineNum;
+	protected int lineNum;
 	protected Scope myScope;
 	protected String methodName;
 	protected LineType myType;
@@ -37,6 +37,17 @@ public abstract class Line {
 	public String methodName(){return methodName;}
 
 	public int num() {return lineNum;}
+
+	public void verifyLinePlus() throws SjavacException {
+
+		try {
+			verifyLine();
+
+		} catch (SjavacException ex) {
+			ex.setLineNum(lineNum);
+			throw ex;
+		}
+	}
 
 
 

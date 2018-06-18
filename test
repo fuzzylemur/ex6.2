@@ -1,6 +1,7 @@
-void foo(final int a, int b){
+int a=5;
 
-    a=5;
-
+void foo(int b){
+    if(true){
+    }
     return;
 }
