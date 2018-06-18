@@ -25,10 +25,8 @@ public class VariableHashMap {
 	int contains(Variable var) {
 
 		Variable ans = variables.get(var.name());
-		if (ans != null) {
-			if (var.type() != null && ans.type() != var.type())
-				return -1;
-			else if (!ans.isFinal())
+		if (ans != null && ans.type() == var.type()) {
+			if (!ans.isFinal())
 				return 1;
 			else
 				return 0;
