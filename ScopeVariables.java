@@ -34,9 +34,10 @@ public class ScopeVariables {
 	}
 
 	private VarType findType(Variable var) throws SjavacException{
-		//if you ask your self... the stupid stack iterator is itering itself from bottom up.
+		//if you ask yourself... the stupid stack iterator is itering itself from bottom up.
 		for (ListIterator<VariableHashMap> iter = myStack.listIterator(myStack.size()); iter.hasPrevious();) {
 			VariableHashMap vars = iter.previous();
+
 			Variable ans = vars.contains(var);
 			if (ans != null) {
 				if (ans.isFinal())
