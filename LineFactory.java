@@ -133,7 +133,7 @@ public class LineFactory {
 			for (String element : split) {
 				String[] split2 = element.split(" ");
 				if (split2.length == 3)
-					myVars.add(new Variable(VarType.getType(split2[0]), split2[1], null, true));
+					myVars.add(new Variable(VarType.getType(split2[0]), split2[1], "0", true));
 				else
 					myVars.add(new Variable(VarType.getType(split2[0]), split2[1], null, false));
 			}

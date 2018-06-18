@@ -36,6 +36,7 @@ public class VariableHashMap {
 	}*/
 
 	Variable contains(Variable var){
+
 		return variables.get(var.name());
 	}
 }

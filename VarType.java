@@ -10,7 +10,7 @@ public enum VarType {
 	STRING 		("string", 		"\".*\"", 					null),
 	DOUBLE 		("double",		"-?[0-9]+\\.[0-9]+", 		new VarType[] {INT}),
 	CHAR 		("char", 		"\'.\'", 					null),
-	BOOLEAN 	("boolean", 	"[true|false]", 			new VarType[] {INT, DOUBLE}),
+	BOOLEAN 	("boolean", 	"true|false", 				new VarType[] {INT, DOUBLE}),
 
 	VAR_NAME	("name", 		"_[\\w]+|[A-Za-z]\\w*",		null);
 

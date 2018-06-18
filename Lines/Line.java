@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public abstract class Line {
 
-	protected Scope myScope;
 	private int lineNum;
+	protected Scope myScope;
 	protected String methodName;
 	protected LineType myType;
 	protected ArrayList<Variable> varArray;

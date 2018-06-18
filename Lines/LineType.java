@@ -52,7 +52,7 @@ public enum LineType {
 		static final String ONE_OR_MORE_VALUES = "("+VALUES+"(?:,"+VALUES+")*)";
 		static final String METHOD_CALL = "("+METHOD_NAME+")\\(("+ONE_OR_MORE_VALUES+")?\\)\\;";
 
-		static final String COMMENT_LINE = "//BLA";
+		static final String COMMENT_LINE = "//.*";
 		static final String RETURN_LINE = "return;";
 		static final String CLOSE_LINE = "\\}";
 

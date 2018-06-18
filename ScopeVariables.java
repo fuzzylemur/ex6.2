@@ -66,7 +66,7 @@ public class ScopeVariables {
 		}
 
 		Matcher m = VarType.getMatcher(VarType.VAR_NAME).reset(value);
-		if (m.matches()) {
+		if (m.matches() && !value.matches(VarType.BOOLEAN.valuePattern)) {
 			Variable refVar = new Variable(var.type(), var.value(), null, false);
 			verifyUse(refVar);
 		} else {

@@ -5,7 +5,6 @@ public class Variable {
 	private VarType myType;
 	private String myName;
 	private String myValue;
-	private String key;
 	private boolean isFinal;
 
 	Variable(VarType type, String name, String value, boolean isFinal){
@@ -25,6 +24,4 @@ public class Variable {
 	String value() {return myValue;}
 
 	Boolean isFinal() {return isFinal;}
-
-	String key() {return VarType.stringRep(myType)+myName;}
 }
