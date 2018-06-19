@@ -7,6 +7,8 @@ public enum Msg {
 	VAR_INVALID_VALUE 		("Invalid value for this variable type"),
 	VAR_FINAL_NO_VALUE 		("Final variable needs to be assigned value"),
 	VAR_FINAL_ASSIGN 		("Final variable can't be assigned again"),
+	VAR_NO_ASSIGN           ("Can't use a variable that has not been assigned a value"),
+	VAR_WRONG_TYPE          ("Use in wrong type of variable"),
 	VAR_NO_INIT 			("Variable hasn't been initialized"),
 	LINE_FORMAT 			("Unknown line format"),
 	MISSING_RETURN 			("Missing return at method end"),

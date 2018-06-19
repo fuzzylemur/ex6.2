@@ -56,10 +56,12 @@ public class ScopeVariables {
 
 			Variable ans = vars.contains(varToCheck);
 			if (ans != null){
-				if (ans.isAssigned() && varToCheck.type().equals(ans.type()))
-					return;
+				if (!ans.isAssigned())
+					throw new SjavacException(Msg.VAR_NO_ASSIGN);
+				else if (varToCheck.type().equals(ans.type()))
+					throw new SjavacException(Msg.VAR_WRONG_TYPE);
 				else
-					throw new SjavacException(Msg.VAR_NO_INIT); // add no assign
+					 return;
 			}
 
 		}
