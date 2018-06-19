@@ -53,10 +53,10 @@ public class LineFactory {
 		for (LineType type : LineType.values()){
 			if (LineType.getMatcher(type).reset(lineString).matches()) {
 
-				System.out.println(type.name());
-				for (int i = 0; i < LineType.getMatcher(type).groupCount(); i++) {
-					System.out.println(i + ": " + LineType.getMatcher(type).group(i));
-				}
+				//System.out.println(type.name());
+				//for (int i = 0; i < LineType.getMatcher(type).groupCount(); i++) {
+				//	System.out.println(i + ": " + LineType.getMatcher(type).group(i));
+				//}
 
 				return type;
 			}
