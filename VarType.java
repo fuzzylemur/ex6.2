@@ -78,8 +78,6 @@ public enum VarType {
 		return patternStr.toString();
 	}
 
-	static String stringRep(VarType type) {return type.stringRep;}
-
 	public boolean equals(VarType toCompare){
 
 		if (this == toCompare) {

@@ -23,74 +23,63 @@ public class CodeSplitter {
 
 		for (int i = 0; i < allLines.size(); i++) {
 
-			if (allLines.get(i).matches("\\s*")) continue;
-
 			Line curLine;
-			try {
-				curLine = myFactory.createLine(allLines.get(i));
-			} catch (SjavacException ex){
-				ex.setLineNum(i+1);
-				throw ex;
-			}
+			curLine = createLine(allLines.get(i), i+1);
 			LineType type = curLine.type();
-
 			curLine.setLineNum(i+1);
 
-			if (type == LineType.COMMENT)
-				continue;
+			switch (type) {
 
-			if (type == LineType.VAR_INIT || type == LineType.VAR_ASSIGN) {
-				main.addLine(curLine);
-				curLine.setScope(main);
-				continue;
-			}
+				case COMMENT:
+					continue;
 
-			else if (type == LineType.METHOD_DEF) {
+				case VAR_INIT:
+				case VAR_ASSIGN:
+					main.addLine(curLine);
+					curLine.setScope(main);
+					continue;
 
-				Method myMethod = new Method(curLine.methodName(), curLine.varArray(), main);
+				case METHOD_DEF:
 
-				int counter = 1;
+					Method myMethod = new Method(curLine.methodName(), curLine.varArray(), main);
+					int count = 1;
 
-				while (type != LineType.CLOSE || counter != 0) {
+					while (type != LineType.CLOSE || count != 0) {
 
-					i++;
-					if (i >= allLines.size())
-						throw new SjavacException(Msg.SCOPE_OPEN);
+						i++;
+						if (i >= allLines.size())
+							throw new SjavacException(Msg.SCOPE_OPEN);
+						
+						curLine = createLine(allLines.get(i), i+1);
+						type = curLine.type();
+						curLine.setLineNum(i+1);
+						curLine.setScope(myMethod);
 
-					if (allLines.get(i).matches("\\s*")) continue;
+						switch (type) {
 
-					try {
-						curLine = myFactory.createLine(allLines.get(i));
-					} catch (SjavacException ex){
-						ex.setLineNum(i+1);
-						throw ex;
-					}
+							case COMMENT:
+								continue;
 
-					type = curLine.type();
-					curLine.setLineNum(i+1);
-					curLine.setScope(myMethod);
+							case METHOD_DEF:
+								throw new SjavacException(Msg.DEF_IN_METHOD, i+1);
 
-					if (type == LineType.COMMENT)
-						continue;
+							case BLOCK:						// TODO why the fuck won't this work ?!
+								count ++;
 
-					if (type == LineType.METHOD_DEF)
-						throw new SjavacException(Msg.DEF_IN_METHOD, i+1);
-
-					if (type == LineType.BLOCK) {
-						counter++;
-					} else if (type == LineType.CLOSE) {
-						counter--;
-						if (counter < 0)
-							throw new SjavacException(Msg.SCOPE_CLOSED);
-					}
-					myMethod.addLine(curLine);
+							case CLOSE:
+								count --;
+								if (count < 0)
+									throw new SjavacException(Msg.SCOPE_CLOSED);
+						}
+						if (type == LineType.BLOCK)
+							count ++;
+						myMethod.addLine(curLine);
 
 				}
 				// look for return line  before the method ends.
-				if (myMethod.lines().size() < 2)
-					throw new SjavacException(Msg.MISSING_RETURN);
-				if (myMethod.lines().get(myMethod.lines().size()-2).type() != LineType.RETURN)
-					throw new SjavacException(Msg.MISSING_RETURN);
+				if (myMethod.lines().size() < 2 ||
+						myMethod.lines().get(myMethod.lines().size()-2).type() != LineType.RETURN)
+					throw new SjavacException(Msg.MISSING_RETURN, i+1);
 
 				main.addMethod(myMethod);
 				continue;
@@ -98,5 +87,18 @@ public class CodeSplitter {
 			throw new SjavacException(Msg.INVALID_MAIN_LINE, i+1);
 		}
 		return main;
+	}
+
+
+	private Line createLine(String lineString, int lineNum) throws SjavacException{
+
+		try {
+			return myFactory.createLine(lineString);
+
+		} catch (SjavacException ex) {
+
+			ex.setLineNum(lineNum);
+			throw ex;
+		}
 	}
 }

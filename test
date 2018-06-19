@@ -8,7 +8,7 @@ final int b = a;
 String s;
 
 void boo(int a, int b, String s) {
-	if (true & & false  | | s) {
+	if (true & & false) {
 		boo(1,2,"hello");
 		while (false) {
 			soo(true);

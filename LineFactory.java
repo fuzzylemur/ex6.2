@@ -16,7 +16,7 @@ public class LineFactory {
 
 	Line createLine(String lineString) throws SjavacException {
 
-		if (LineType.getMatcher(LineType.COMMENT).reset(lineString).matches())
+		if (LineType.getMatcher(LineType.COMMENT).reset(lineString).matches())		// TODO why is this here actually?
 			return new LineComment();
 
 		LineType chosenType = determineLineType(lineString);
@@ -91,6 +91,7 @@ public class LineFactory {
 
 		String[] split = m.group(1).replaceAll("\\s","").split("=");
 		Variable var = new Variable(null, split[0], split[1], false);
+
 		return new LineVarAssign(var);
 	}
 
