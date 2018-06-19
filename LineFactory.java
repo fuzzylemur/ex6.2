@@ -16,14 +16,10 @@ public class LineFactory {
 
 	Line createLine(String lineString) throws SjavacException {
 
-		if (lineString.matches("//.*"))
+		if (LineType.getMatcher(LineType.COMMENT).reset(lineString).matches())
 			return new LineComment();
 
-		String cleanStr = cleanLine(lineString);
-		if (cleanStr.equals(""))
-			return new LineComment();
-
-		LineType chosenType = determineLineType(cleanStr);
+		LineType chosenType = determineLineType(lineString);
 		Matcher chosenMatcher = LineType.getMatcher(chosenType);
 
 		switch(chosenType) {
@@ -52,27 +48,15 @@ public class LineFactory {
 		throw new SjavacException(Msg.LINE_FORMAT);
 	}
 
-	private String cleanLine(String lineString) {
-
-		String[] split = lineString.split("\\s");
-
-		for (int i=0; i < split.length; i++){
-			if (split[i].matches(".*(?:"+LineType.getReservedWords()+")")) {
-				split[i] += " ";
-			}
-		}
-		return String.join("", split);
-	}
-
 	private LineType determineLineType(String lineString) throws SjavacException{
 
 		for (LineType type : LineType.values()){
 			if (LineType.getMatcher(type).reset(lineString).matches()) {
 
-				//System.out.println(type.name());
-				//for (int i = 0; i < LineType.getMatcher(type).groupCount(); i++) {
-				//	System.out.println(i + ": " + LineType.getMatcher(type).group(i));
-				//}
+				System.out.println(type.name());
+				for (int i = 0; i < LineType.getMatcher(type).groupCount(); i++) {
+					System.out.println(i + ": " + LineType.getMatcher(type).group(i));
+				}
 
 				return type;
 			}
@@ -91,10 +75,10 @@ public class LineFactory {
 		VarType myType = VarType.getType(m.group(2));
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = m.group(3).split(",");
+		String[] split = m.group(3).replaceAll("\\s","").split(",");
 
 		for (String element : split){
-			String[] split2 = element.split("=",2);
+			String[] split2 = element.split("=");
 			if (split2.length == 1)
 				myVars.add(new Variable(myType, split2[0], null, isFinal));
 			else
@@ -105,7 +89,7 @@ public class LineFactory {
 
 	private Line assignHelper(Matcher m) {
 
-		String[] split = m.group(1).split("=");
+		String[] split = m.group(1).replaceAll("\\s","").split("=");
 		Variable var = new Variable(null, split[0], split[1], false);
 		return new LineVarAssign(var);
 	}
@@ -115,7 +99,7 @@ public class LineFactory {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = m.group(1).split("&&|\\|\\|");
+		String[] split = m.group(1).replaceAll("\\s","").split(LineType.RegexConfig.COND_DELIM);
 
 		for (String element : split){
 			myVars.add(new Variable(VarType.BOOLEAN, null , element, false));
@@ -131,7 +115,7 @@ public class LineFactory {
 
 			String[] split = m.group(2).split(",");
 			for (String element : split) {
-				String[] split2 = element.split(" ");
+				String[] split2 = element.split("\\s");
 				if (split2.length == 3)
 					myVars.add(new Variable(VarType.getType(split2[1]), split2[2], Variable.ASSIGNED, true));
 				else
@@ -148,7 +132,7 @@ public class LineFactory {
 
 		if (m.group(2) != null) {
 
-			String[] split = m.group(2).split(",");
+			String[] split = m.group(2).replaceAll("\\s","").split(",");
 
 			for (String element : split)
 				myVars.add(new Variable(null, null, element, false));

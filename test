@@ -1,16 +1,16 @@
 // some int member
-final int a=5;
+final int a = 5;
 
-// Another int member
-final int b=a;
+//Another int member
+final int b = a;
 
 // now - a string member
 String s;
 
-void boo(int a, int b, String s){
-	if(true){
+void boo(int a, int b, String s) {
+	if (true & & false  | | s) {
 		boo(1,2,"hello");
-		while(false){
+		while (false) {
 			soo(true);
 		}
 	}
