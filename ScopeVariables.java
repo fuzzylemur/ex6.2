@@ -44,6 +44,7 @@ public class ScopeVariables {
 					throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
 				else
 					return ans.type();
+
 			}
 		}
 		throw new SjavacException(Msg.VAR_NO_INIT);
@@ -54,8 +55,13 @@ public class ScopeVariables {
 			VariableHashMap vars = iter.previous();
 
 			Variable ans = vars.contains(varToCheck);
-			if (ans != null && varToCheck.type().equals(ans.type()))
-				return;
+			if (ans != null){
+				if (ans.isAssigned() && varToCheck.type().equals(ans.type()))
+					return;
+				else
+					throw new SjavacException(Msg.VAR_NO_INIT); // add no assign
+			}
+
 		}
 		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
@@ -72,7 +78,6 @@ public class ScopeVariables {
 				throw new SjavacException(Msg.VAR_FINAL_NO_VALUE);
 			return;
 		}
-
 		Matcher m = VarType.getMatcher(VarType.VAR_NAME).reset(value);
 		if (m.matches() && !value.matches(VarType.BOOLEAN.valuePattern)) {
 			Variable refVar = new Variable(var.type(), var.value(), null, false);
@@ -82,6 +87,7 @@ public class ScopeVariables {
 			if (!m.matches())
 				throw new SjavacException(Msg.VAR_INVALID_VALUE);
 		}
+		var.setAssigned();
 	}
 
 	public void openScope(){

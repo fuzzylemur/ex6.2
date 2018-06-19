@@ -6,6 +6,7 @@ public class Variable {
 	private String myName;
 	private String myValue;
 	private boolean isFinal;
+	private static String ASSIGNED = "assigned";
 
 	Variable(VarType type, String name, String value, boolean isFinal){
 
@@ -23,5 +24,9 @@ public class Variable {
 
 	String value() {return myValue;}
 
-	Boolean isFinal() {return isFinal;}
+	boolean isFinal() {return isFinal;}
+
+	boolean isAssigned(){return myValue != null;}
+
+	void setAssigned(){myValue = ASSIGNED;}
 }
