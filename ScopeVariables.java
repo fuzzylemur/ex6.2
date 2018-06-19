@@ -42,8 +42,10 @@ public class ScopeVariables {
 			if (ans != null) {
 				if (ans.isFinal())
 					throw new SjavacException(Msg.VAR_FINAL_ASSIGN);
-				else
+				else{
+					ans.setAssigned();
 					return ans.type();
+				}
 
 			}
 		}
@@ -61,9 +63,8 @@ public class ScopeVariables {
 				else if (!varToCheck.type().equals(ans.type()))
 					throw new SjavacException(Msg.VAR_WRONG_TYPE);
 				else
-					 return;
+					return;
 			}
-
 		}
 		throw new SjavacException(Msg.VAR_NO_INIT);
 	}
@@ -89,7 +90,6 @@ public class ScopeVariables {
 			if (!m.matches())
 				throw new SjavacException(Msg.VAR_INVALID_VALUE);
 		}
-		var.setAssigned();
 	}
 
 	public void openScope(){
