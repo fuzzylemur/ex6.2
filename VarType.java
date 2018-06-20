@@ -53,30 +53,7 @@ public enum VarType {
 		return type.valueMatcher;
 	}
 
-	public static String getAllTypesPattern() {
-
-		StringBuilder patternStr = new StringBuilder("(?:");
-		for (VarType type : VarType.values()) {
-			if (type == VarType.VAR_NAME)
-				continue;
-			patternStr.append(type.stringRep).append("|");
-		}
-		patternStr.deleteCharAt(patternStr.length()-1);
-		patternStr.append(")");
-		return patternStr.toString();
-	}
-
-	public static String getAllValuesPattern() {
-
-		StringBuilder patternStr = new StringBuilder("(?:");
-		for (VarType type : VarType.values()) {
-			patternStr.append(type.valuePattern).append("|");
-		}
-		patternStr.deleteCharAt(patternStr.length()-1);
-		patternStr.append(")");
-
-		return patternStr.toString();
-	}
+	public static String getStringRep(VarType type) {return type.stringRep;}
 
 	public boolean equals(VarType toCompare){
 

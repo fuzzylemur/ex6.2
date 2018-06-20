@@ -16,7 +16,7 @@ public class VariableHashMap {
 		for (Variable var : varArray) {
 
 			if (variables.containsKey(var.name()))
-				throw new SjavacException(Msg.VAR_ALREADY_INIT);		//TODO legal maybe?
+				throw new SjavacException(Msg.VAR_ALREADY_INIT);
 			else
 				variables.put(var.name(), var);
 		}

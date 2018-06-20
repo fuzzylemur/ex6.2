@@ -37,11 +37,11 @@ public enum LineType {
 
 	public static class RegexConfig {
 
-		static final String TYPES = VarType.getAllTypesPattern();
-		static final String VALUES = VarType.getAllValuesPattern();
+		static final String TYPES = getAllTypesPattern();
+		static final String VALUES = getAllValuesPattern();
 		static final String VAR_NAME = VarType.VAR_NAME.valuePattern;
 		static final String FINAL = "final";
-		static final String VAR_DELIM = ",";
+		public static final String VAR_DELIM = ",";
 
 		static final String ASSIGN = "(?:\\s*"+VAR_NAME+"\\s*=\\s*"+VALUES+"\\s*)";
 		static final String NAME_OR_ASSIGN = "(?:\\s*"+VAR_NAME+"\\s*|"+ASSIGN+")";
@@ -62,16 +62,16 @@ public enum LineType {
 		static final String CLOSE_LINE = "\\s*\\}\\s*";
 
 		static final String[] VAR_INIT = new String[]
-				{"(?:("+FINAL+") )?","(?:("+TYPES+") )","("+VARIABLES+")",";"};
+				{"(?:("+FINAL+")\\s)?","(?:("+TYPES+")\\s)","("+VARIABLES+")",";"};
 
 		static final String[] VAR_ASSIGN = new String[]
 				{"("+ASSIGN+")",";"};
 
 		static final String[] METHOD_DEF = new String[]
-				{METHOD_WORD+" ","("+METHOD_NAME+")","\\(","("+PARAMS+")","\\)","\\{"};
+				{METHOD_WORD+" ","("+METHOD_NAME+")","\\(","("+PARAMS+")?","\\)","\\{"};
 
 		static final String[] METHOD_CALL = new String[]
-				{"("+METHOD_NAME+")","\\(","("+CALL_VALUES+")","\\)",";"};
+				{"("+METHOD_NAME+")","\\(","("+CALL_VALUES+")?","\\)",";"};
 
 		static final String[] BLOCK_LINE = new String[]
 				{IF_WHILE,"\\(","("+CONDITIONS+")","\\)","\\{"};
@@ -80,6 +80,31 @@ public enum LineType {
 		static String oneOrMore(String element, String delimiter) {
 
 			return "(?:"+element+"\\s*(?:"+delimiter+"\\s*"+element+")*)";
+		}
+
+		static String getAllTypesPattern() {
+
+			StringBuilder patternStr = new StringBuilder("(?:");
+			for (VarType type : VarType.values()) {
+				if (type == VarType.VAR_NAME)
+					continue;
+				patternStr.append(VarType.getStringRep(type)).append("|");
+			}
+			patternStr.deleteCharAt(patternStr.length()-1);
+			patternStr.append(")");
+			return patternStr.toString();
+		}
+
+		static String getAllValuesPattern() {
+
+			StringBuilder patternStr = new StringBuilder("(?:");
+			for (VarType type : VarType.values()) {
+				patternStr.append(type.valuePattern).append("|");
+			}
+			patternStr.deleteCharAt(patternStr.length()-1);
+			patternStr.append(")");
+
+			return patternStr.toString();
 		}
 	}
 }
