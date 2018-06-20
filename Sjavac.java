@@ -48,8 +48,8 @@ public class Sjavac {
 			System.err.println(ex.getMessage());
 		}
 		catch (java.io.IOException ex){
-		System.out.println("2");
-		System.err.println(Msg.getString(Msg.IO));
+			System.out.println("2");
+			System.err.println(Msg.getString(Msg.IO));
 		}
 	}
 
