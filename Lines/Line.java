@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public abstract class Line {
 
-	protected int lineNum;
-	protected Scope myScope;
-	protected String methodName;
+	private int lineNum;
+	Scope myScope;
+	String methodName;
 	protected LineType myType;
-	protected ArrayList<Variable> varArray;
+	ArrayList<Variable> varArray;
 
 	public Line(){
 		varArray = new ArrayList<>();
@@ -35,8 +35,6 @@ public abstract class Line {
 	public ArrayList<Variable> varArray(){return varArray;}
 
 	public String methodName(){return methodName;}
-
-	public int num() {return lineNum;}
 
 	public void verifyLinePlus() throws SjavacException {
 

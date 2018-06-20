@@ -21,10 +21,13 @@ public class CodeSplitter {
 
 		MainScope main = new MainScope();
 
+		Line curLine;
+		int lineNum;
+
 		for (int i = 0; i < allLines.size(); i++) {
 
-			Line curLine;
-			curLine = createLine(allLines.get(i), i+1);
+			lineNum = i+1;
+			curLine = createLine(allLines.get(i), lineNum);
 			LineType type = curLine.type();
 
 			switch (type) {
@@ -49,7 +52,7 @@ public class CodeSplitter {
 						if (i >= allLines.size())
 							throw new SjavacException(Msg.SCOPE_OPEN);
 
-						curLine = createLine(allLines.get(i), i+1);
+						curLine = createLine(allLines.get(i), lineNum);
 						type = curLine.type();
 						curLine.setScope(myMethod);
 
@@ -57,7 +60,7 @@ public class CodeSplitter {
 							continue;
 
 						if (type == LineType.METHOD_DEF)
-							throw new SjavacException(Msg.DEF_IN_METHOD, i+1);
+							throw new SjavacException(Msg.DEF_IN_METHOD, lineNum);
 
 						if (type == LineType.BLOCK)
 							count ++;
@@ -72,12 +75,12 @@ public class CodeSplitter {
 				// look for return line  before the method ends.
 				if (myMethod.lines().size() < 2 ||
 						myMethod.lines().get(myMethod.lines().size()-2).type() != LineType.RETURN)
-					throw new SjavacException(Msg.MISSING_RETURN, i+1);
+					throw new SjavacException(Msg.MISSING_RETURN, lineNum);
 
 				main.addMethod(myMethod);
 				continue;
 			}
-			throw new SjavacException(Msg.INVALID_MAIN_LINE, i+1);
+			throw new SjavacException(Msg.INVALID_MAIN_LINE, lineNum);
 		}
 		return main;
 	}

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class MainScope extends Scope{
 
-	HashMap<String, Method> myMethods;
+	private HashMap<String, Method> myMethods;
 
 	MainScope() {
 		super(null);
@@ -24,7 +24,5 @@ public class MainScope extends Scope{
 		return myMethods.get(name);
 	}
 
-	public HashMap<String, Method> getMethods() {
-		return myMethods;
-	}
+	public HashMap<String, Method> getMethods() {return myMethods;}
 }

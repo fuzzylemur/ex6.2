@@ -22,19 +22,6 @@ public class VariableHashMap {
 		}
 	}
 
-	/*
-	int contains(Variable var) {
-
-		Variable ans = variables.get(var.name());
-		if (ans != null && ans.type() == var.type()) {
-			if (!ans.isFinal())
-				return 1;
-			else
-				return 0;
-		} else
-			return -1;
-	}*/
-
 	Variable contains(Variable var){
 
 		return variables.get(var.name());

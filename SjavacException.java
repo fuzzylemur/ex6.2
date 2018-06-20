@@ -19,9 +19,7 @@ public class SjavacException extends Exception{
 		this.lineNum = lineNum;
 	}
 
-	public void setLineNum(int lineNum){
-		this.lineNum = lineNum;
-	}
+	public void setLineNum(int lineNum) {this.lineNum = lineNum;}
 
 	public String getMessage() {
 

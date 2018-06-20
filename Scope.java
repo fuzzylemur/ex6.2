@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Scope {
 
-	protected ScopeVariables myVariables;
-	protected ArrayList<Line> myLines;
+	private ScopeVariables myVariables;
+	private ArrayList<Line> myLines;
 	protected MainScope main;
 
 	Scope(MainScope main) {
