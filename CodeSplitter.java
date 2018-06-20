@@ -26,7 +26,6 @@ public class CodeSplitter {
 			Line curLine;
 			curLine = createLine(allLines.get(i), i+1);
 			LineType type = curLine.type();
-			curLine.setLineNum(i+1);
 
 			switch (type) {
 
@@ -52,7 +51,6 @@ public class CodeSplitter {
 
 						curLine = createLine(allLines.get(i), i+1);
 						type = curLine.type();
-						curLine.setLineNum(i+1);
 						curLine.setScope(myMethod);
 
 						if (type == LineType.COMMENT)
@@ -87,7 +85,11 @@ public class CodeSplitter {
 
 	private Line createLine(String lineString, int lineNum) throws SjavacException{
 
-		try {return myFactory.createLine(lineString);}
+		try {
+			Line curLine = myFactory.createLine(lineString);
+			curLine.setLineNum(lineNum);
+			return curLine;
+		}
 		catch (SjavacException ex) {
 			ex.setLineNum(lineNum);
 			throw ex;
