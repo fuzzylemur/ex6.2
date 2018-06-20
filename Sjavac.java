@@ -8,12 +8,12 @@ public class Sjavac {
 
 	private CodeSplitter mySplitter;
 	private ArrayList<String> stringLines;
+	private FileParser myParser;
 
-	private Sjavac(String filePath) {
+	private Sjavac() {
 
-		FileParser myParser = FileParser.instance();
+		myParser = FileParser.instance();
 		mySplitter = CodeSplitter.instance();
-		stringLines = myParser.parseFile(filePath);
 	}
 
 	private void verifyScope(Scope scope) throws SjavacException {
@@ -35,9 +35,10 @@ public class Sjavac {
 		}
 	}
 
-	private void verify() {
+	private void verify(String path) {
 
 		try {
+			stringLines = myParser.parseFile(path);
 			MainScope main = splitCode(stringLines);
 			verifyAll(main);
 			System.out.println("0");
@@ -45,6 +46,10 @@ public class Sjavac {
 		} catch (SjavacException ex) {
 			System.out.println("1");
 			System.err.println(ex.getMessage());
+		}
+		catch (java.io.IOException ex){
+		System.out.println("2");
+		System.err.println(Msg.getString(Msg.IO));
 		}
 	}
 
@@ -56,7 +61,10 @@ public class Sjavac {
 
 	public static void main(String[] args){
 
-		Sjavac verifier = new Sjavac(args[0]);
-		verifier.verify();
+		if (args.length != 1)
+			return;
+
+		Sjavac verifier = new Sjavac();
+		verifier.verify(args[0]);
 	}
 }

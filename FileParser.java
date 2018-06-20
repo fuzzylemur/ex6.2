@@ -1,9 +1,6 @@
 package oop.ex6.main;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.LineNumberReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FileParser {
@@ -16,7 +13,7 @@ public class FileParser {
 	static FileParser instance() {return myInstance;}
 
 
-	ArrayList<String> parseFile(String filePath) {
+	ArrayList<String> parseFile(String filePath) throws IOException {
 
 		ArrayList<String> stringArray = new ArrayList<>();
 
@@ -34,9 +31,7 @@ public class FileParser {
 			return stringArray;
 
 		} catch (java.io.IOException ex){
-			System.out.println("2");
-			System.err.println(Msg.getString(Msg.IO));
+			throw ex;
 		}
-		return null;
 	}
 }
