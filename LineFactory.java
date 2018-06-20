@@ -16,13 +16,13 @@ public class LineFactory {
 
 	Line createLine(String lineString) throws SjavacException {
 
-		if (LineType.getMatcher(LineType.COMMENT).reset(lineString).matches())		// TODO why is this here actually?
-			return new LineComment();
-
 		LineType chosenType = determineLineType(lineString);
 		Matcher chosenMatcher = LineType.getMatcher(chosenType);
 
 		switch(chosenType) {
+
+			case COMMENT:
+				return new LineComment();
 
 			case RETURN:
 				return new LineReturn();
@@ -118,9 +118,11 @@ public class LineFactory {
 			for (String element : split) {
 				String[] split2 = element.split("\\s");
 				if (split2.length == 3)
-					myVars.add(new Variable(VarType.getType(split2[1]), split2[2], Variable.ASSIGNED, true));
+					myVars.add(new Variable(VarType.getType(split2[1]), split2[2],
+							Variable.ASSIGNED, true));
 				else
-					myVars.add(new Variable(VarType.getType(split2[0]), split2[1], Variable.ASSIGNED, false));
+					myVars.add(new Variable(VarType.getType(split2[0]), split2[1],
+							Variable.ASSIGNED, false));
 			}
 		}
 
