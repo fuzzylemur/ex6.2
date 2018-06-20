@@ -49,32 +49,27 @@ public class CodeSplitter {
 						i++;
 						if (i >= allLines.size())
 							throw new SjavacException(Msg.SCOPE_OPEN);
-						
+
 						curLine = createLine(allLines.get(i), i+1);
 						type = curLine.type();
 						curLine.setLineNum(i+1);
 						curLine.setScope(myMethod);
 
-						switch (type) {
+						if (type == LineType.COMMENT)
+							continue;
 
-							case COMMENT:
-								continue;
+						if (type == LineType.METHOD_DEF)
+							throw new SjavacException(Msg.DEF_IN_METHOD, i+1);
 
-							case METHOD_DEF:
-								throw new SjavacException(Msg.DEF_IN_METHOD, i+1);
+						if (type == LineType.BLOCK)
+							count ++;
 
-							case BLOCK:						// TODO why the fuck won't this work ?!
-								count ++;
-
-							case CLOSE:
+						if (type == LineType.CLOSE)
 								count --;
 								if (count < 0)
 									throw new SjavacException(Msg.SCOPE_CLOSED);
-						}
-						if (type == LineType.BLOCK)
-							count ++;
-						myMethod.addLine(curLine);
 
+						myMethod.addLine(curLine);
 				}
 				// look for return line  before the method ends.
 				if (myMethod.lines().size() < 2 ||
@@ -92,11 +87,8 @@ public class CodeSplitter {
 
 	private Line createLine(String lineString, int lineNum) throws SjavacException{
 
-		try {
-			return myFactory.createLine(lineString);
-
-		} catch (SjavacException ex) {
-
+		try {return myFactory.createLine(lineString);}
+		catch (SjavacException ex) {
 			ex.setLineNum(lineNum);
 			throw ex;
 		}
