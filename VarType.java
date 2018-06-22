@@ -8,8 +8,8 @@ public enum VarType {
 
 	INT 		("int", 		"-?[0-9]+", 				null),
 	STRING 		("String", 		"\".*\"", 					null),
-	DOUBLE 		("double",		"-?[0-9]+\\.[0-9]+", 		new VarType[] {INT}),
 	CHAR 		("char", 		"\'.\'", 					null),
+	DOUBLE 		("double",		"-?[0-9]+\\.[0-9]+", 		new VarType[] {INT}),
 	BOOLEAN 	("boolean", 	"true|false", 				new VarType[] {INT, DOUBLE}),
 
 	VAR_NAME	("name", 		"_[\\w]+|[A-Za-z]\\w*",		null);

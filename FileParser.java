@@ -29,9 +29,6 @@ public class FileParser {
 				lineStr = lineReader.readLine();
 			}
 			return stringArray;
-
-		} catch (java.io.IOException ex){
-			throw ex;
 		}
 	}
 }

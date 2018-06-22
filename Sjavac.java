@@ -6,8 +6,11 @@ import java.util.ArrayList;
 
 public class Sjavac {
 
+	private static final String OUT_VALID = "0";
+	private static final String OUT_INVALID = "1";
+	private static final String OUT_IO = "2";
+
 	private CodeSplitter mySplitter;
-	private ArrayList<String> stringLines;
 	private FileParser myParser;
 
 	private Sjavac() {
@@ -18,8 +21,8 @@ public class Sjavac {
 
 	private void verifyScope(Scope scope) throws SjavacException {
 
-		for (Line line : scope.lines()) {
-			line.verifyLinePlus();
+		for (Line curLine : scope.lines()) {
+			curLine.verifyLinePlus();
 		}
 	}
 
@@ -35,29 +38,24 @@ public class Sjavac {
 		}
 	}
 
-	private void verify(String path) {
+	private void verify(String filePath) {
 
 		try {
-			stringLines = myParser.parseFile(path);
-			MainScope main = splitCode(stringLines);
+			ArrayList<String> stringLines = myParser.parseFile(filePath);
+			MainScope main = mySplitter.splitCode(stringLines);
+
 			verifyAll(main);
-			System.out.println("0");
+			System.out.println(OUT_VALID);
 
 		} catch (SjavacException ex) {
-			System.out.println("1");
+			System.out.println(OUT_INVALID);
 			System.err.println(ex.getMessage());
 		}
 		catch (java.io.IOException ex){
-			System.out.println("2");
+			System.out.println(OUT_IO);
 			System.err.println(Msg.getString(Msg.IO));
 		}
 	}
-
-	private MainScope splitCode(ArrayList<String> stringLines) throws SjavacException{
-
-		return mySplitter.splitCode(stringLines);
-	}
-
 
 	public static void main(String[] args){
 
