@@ -1,6 +1,9 @@
 package oop.ex6.main;
 
-import oop.ex6.main.Lines.Line;
+import oop.ex6.main.codeElements.codeLines.Line;
+import oop.ex6.main.codeElements.MainScope;
+import oop.ex6.main.codeElements.Method;
+import oop.ex6.main.codeElements.Scope;
 
 import java.util.ArrayList;
 
@@ -46,8 +49,8 @@ public class Sjavac {
 
 			verifyAll(main);
 			System.out.println(OUT_VALID);
-
-		} catch (SjavacException ex) {
+		}
+		catch (SjavacException ex) {
 			System.out.println(OUT_INVALID);
 			System.err.println(ex.getMessage());
 		}

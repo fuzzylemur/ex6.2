@@ -1,28 +1,26 @@
-package oop.ex6.main.Lines;
-
-import oop.ex6.main.VarType;
+package oop.ex6.main.codeElements;
 
 public class RegexConfig {
 
-	static final String TYPES = getAllTypesPattern();
-	static final String VALUES = getAllValuesPattern();
-	static final String VAR_NAME = VarType.VAR_NAME.valuePattern;
-	static final String FINAL = "final";
+	private static final String TYPES = getAllTypesPattern();
+	private static final String VALUES = getAllValuesPattern();
+	private static final String VAR_NAME = VarType.VAR_NAME.valuePattern;
+	private static final String FINAL = "final";
 	public static final String VAR_DELIM = ",";
 
-	static final String ASSIGN = "(?:\\s*"+VAR_NAME+"\\s*=\\s*"+VALUES+"\\s*)";
-	static final String NAME_OR_ASSIGN = "(?:\\s*"+VAR_NAME+"\\s*|"+ASSIGN+")";
-	static final String VARIABLES = oneOrMore(NAME_OR_ASSIGN, VAR_DELIM);
+	private static final String ASSIGN = "(?:\\s*"+VAR_NAME+"\\s*=\\s*"+VALUES+"\\s*)";
+	private static final String NAME_OR_ASSIGN = "(?:\\s*"+VAR_NAME+"\\s*|"+ASSIGN+")";
+	private static final String VARIABLES = oneOrMore(NAME_OR_ASSIGN, VAR_DELIM);
 
-	static final String IF_WHILE = "(?:if|while)";
+	private static final String IF_WHILE = "(?:if|while)";
 	public static final String COND_DELIM = "(?:\\s*&\\s*&\\s*|\\s*\\|\\s*\\|\\s*)";
-	static final String CONDITIONS = oneOrMore(VALUES, COND_DELIM);
+	private static final String CONDITIONS = oneOrMore(VALUES, COND_DELIM);
 
-	static final String METHOD_NAME = "[A-Za-z]\\w*";
-	static final String METHOD_WORD = "void";
-	static final String PARAM = "(?:"+FINAL+" )?\\s*(?:"+TYPES+" )\\s*(?:"+VAR_NAME+")";
-	static final String PARAMS = oneOrMore(PARAM, VAR_DELIM);
-	static final String CALL_VALUES = oneOrMore(VALUES, VAR_DELIM);
+	private static final String METHOD_NAME = "[A-Za-z]\\w*";
+	private static final String METHOD_WORD = "void";
+	private static final String PARAM = "(?:"+FINAL+" )?\\s*(?:"+TYPES+" )\\s*(?:"+VAR_NAME+")";
+	private static final String PARAMS = oneOrMore(PARAM, VAR_DELIM);
+	private static final String CALL_VALUES = oneOrMore(VALUES, VAR_DELIM);
 
 	static final String COMMENT_LINE = "//.*|\\s*";
 	static final String RETURN_LINE = "\\s*return\\s*;\\s*";

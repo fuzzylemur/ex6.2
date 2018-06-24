@@ -1,4 +1,7 @@
-package oop.ex6.main;
+package oop.ex6.main.codeElements;
+
+import oop.ex6.main.Msg;
+import oop.ex6.main.SjavacException;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -14,9 +17,9 @@ public class ScopeVariables {
 		myStack.push(new VariableHashMap());
 	}
 
-	VariableHashMap getMap(){return myStack.peek();}
+	public VariableHashMap getMap(){return myStack.peek();}
 
-	void addMap(VariableHashMap map){
+	public void addMap(VariableHashMap map){
 		myStack.pop();
 		myStack.push(map);
 		myStack.push(new VariableHashMap());

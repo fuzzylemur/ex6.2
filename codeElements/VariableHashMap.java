@@ -1,4 +1,7 @@
-package oop.ex6.main;
+package oop.ex6.main.codeElements;
+
+import oop.ex6.main.Msg;
+import oop.ex6.main.SjavacException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

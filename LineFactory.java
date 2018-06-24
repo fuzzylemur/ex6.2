@@ -1,6 +1,9 @@
 package oop.ex6.main;
 
-import oop.ex6.main.Lines.*;
+import oop.ex6.main.codeElements.RegexConfig;
+import oop.ex6.main.codeElements.VarType;
+import oop.ex6.main.codeElements.Variable;
+import oop.ex6.main.codeElements.codeLines.*;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

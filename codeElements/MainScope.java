@@ -1,4 +1,7 @@
-package oop.ex6.main;
+package oop.ex6.main.codeElements;
+
+import oop.ex6.main.Msg;
+import oop.ex6.main.SjavacException;
 
 import java.util.HashMap;
 
@@ -6,12 +9,12 @@ public class MainScope extends Scope{
 
 	private HashMap<String, Method> myMethods;
 
-	MainScope() {
+	public MainScope() {
 		super(null);
 		myMethods = new HashMap<>();
 	}
 
-	void addMethod(Method method) throws SjavacException{
+	public void addMethod(Method method) throws SjavacException {
 
 		if (myMethods.containsKey(method.name()))
 			throw new SjavacException(Msg.METHOD_OVERLOAD);

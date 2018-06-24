@@ -1,4 +1,4 @@
-package oop.ex6.main;
+package oop.ex6.main.codeElements;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +26,7 @@ public enum VarType {
 		this.validCasts = validCasts;
 	}
 
-	static VarType getType(String str) {
+	public static VarType getType(String str) {
 
 		for (VarType type : VarType.values()){
 			if (str.equals(type.stringRep))

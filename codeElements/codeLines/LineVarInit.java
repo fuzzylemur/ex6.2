@@ -1,7 +1,7 @@
-package oop.ex6.main.Lines;
+package oop.ex6.main.codeElements.codeLines;
 
 import oop.ex6.main.SjavacException;
-import oop.ex6.main.Variable;
+import oop.ex6.main.codeElements.Variable;
 
 import java.util.ArrayList;
 

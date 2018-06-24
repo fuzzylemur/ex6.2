@@ -1,4 +1,4 @@
-package oop.ex6.main;
+package oop.ex6.main.codeElements;
 
 public class Variable {
 
@@ -8,7 +8,7 @@ public class Variable {
 	private boolean isFinal;
 	public static String ASSIGNED = "assigned";
 
-	Variable(VarType type, String name, String value, boolean isFinal){
+	public Variable(VarType type, String name, String value, boolean isFinal){
 
 		this.myType = type;
 		this.myName = name;

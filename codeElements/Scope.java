@@ -1,6 +1,6 @@
-package oop.ex6.main;
+package oop.ex6.main.codeElements;
 
-import oop.ex6.main.Lines.Line;
+import oop.ex6.main.codeElements.codeLines.Line;
 
 import java.util.ArrayList;
 
@@ -16,9 +16,9 @@ public class Scope {
 		this.main = main;
 	}
 
-	void addLine(Line lineToAdd){myLines.add(lineToAdd);}
+	public void addLine(Line lineToAdd){myLines.add(lineToAdd);}
 
-	ArrayList<Line> lines() {return myLines;}
+	public ArrayList<Line> lines() {return myLines;}
 
 	public ScopeVariables variables() {return myVariables;}
 
