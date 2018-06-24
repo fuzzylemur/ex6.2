@@ -75,7 +75,7 @@ public class LineFactory {
 		VarType myType = VarType.getType(m.group(2));
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = clean(m.group(3)).split(LineType.RegexConfig.VAR_DELIM);
+		String[] split = clean(m.group(3)).split(RegexConfig.VAR_DELIM);
 
 		for (String element : split){
 			String[] split2 = element.split("=");
@@ -100,7 +100,7 @@ public class LineFactory {
 
 		ArrayList<Variable> myVars = new ArrayList<>();
 
-		String[] split = clean(m.group(1)).split(LineType.RegexConfig.COND_DELIM);
+		String[] split = clean(m.group(1)).split(RegexConfig.COND_DELIM);
 
 		for (String element : split){
 			myVars.add(new Variable(VarType.BOOLEAN, null , element, false));
@@ -114,7 +114,7 @@ public class LineFactory {
 
 		if (m.group(2) != null) {
 
-			String[] split = m.group(2).split(LineType.RegexConfig.VAR_DELIM);
+			String[] split = m.group(2).split(RegexConfig.VAR_DELIM);
 			for (String element : split) {
 				String[] split2 = element.split("\\s");
 				if (split2.length == 3)
@@ -135,7 +135,7 @@ public class LineFactory {
 
 		if (m.group(2) != null) {
 
-			String[] split = clean(m.group(2)).split(LineType.RegexConfig.VAR_DELIM);
+			String[] split = clean(m.group(2)).split(RegexConfig.VAR_DELIM);
 
 			for (String element : split)
 				myVars.add(new Variable(null, null, element, false));
