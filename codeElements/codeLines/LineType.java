@@ -1,7 +1,5 @@
 package oop.ex6.main.codeElements.codeLines;
 
-import oop.ex6.main.codeElements.RegexConfig;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

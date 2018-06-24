@@ -1,6 +1,6 @@
 package oop.ex6.main;
 
-import oop.ex6.main.codeElements.RegexConfig;
+import oop.ex6.main.codeElements.codeLines.RegexConfig;
 import oop.ex6.main.codeElements.VarType;
 import oop.ex6.main.codeElements.Variable;
 import oop.ex6.main.codeElements.codeLines.*;

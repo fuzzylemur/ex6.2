@@ -1,4 +1,6 @@
-package oop.ex6.main.codeElements;
+package oop.ex6.main.codeElements.codeLines;
+
+import oop.ex6.main.codeElements.VarType;
 
 public class RegexConfig {
 
