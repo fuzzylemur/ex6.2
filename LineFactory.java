@@ -54,12 +54,6 @@ public class LineFactory {
 
 		for (LineType type : LineType.values()){
 			if (LineType.getMatcher(type).reset(lineString).matches()) {
-
-				//System.out.println(type.name());
-				//for (int i = 0; i < LineType.getMatcher(type).groupCount(); i++) {
-				//	System.out.println(i + ": " + LineType.getMatcher(type).group(i));
-				//}
-
 				return type;
 			}
 		}
@@ -106,7 +100,7 @@ public class LineFactory {
 
 		for (String element : split){
 			myVars.add(new Variable(VarType.BOOLEAN, null , element, false));
-		}										// TODO split cases with var name
+		}
 		return new LineBlock(myVars);
 	}
 
