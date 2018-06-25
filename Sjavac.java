@@ -1,9 +1,9 @@
 package oop.ex6.main;
 
-import oop.ex6.main.codeElements.codeLines.Line;
-import oop.ex6.main.codeElements.MainScope;
-import oop.ex6.main.codeElements.Method;
-import oop.ex6.main.codeElements.Scope;
+import oop.ex6.codeElements.codeLines.Line;
+import oop.ex6.codeElements.MainScope;
+import oop.ex6.codeElements.Method;
+import oop.ex6.codeElements.Scope;
 
 import java.util.ArrayList;
 

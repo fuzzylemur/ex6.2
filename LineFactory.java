@@ -1,9 +1,8 @@
 package oop.ex6.main;
 
-import oop.ex6.main.codeElements.codeLines.RegexConfig;
-import oop.ex6.main.codeElements.VarType;
-import oop.ex6.main.codeElements.Variable;
-import oop.ex6.main.codeElements.codeLines.*;
+import oop.ex6.codeElements.VarType;
+import oop.ex6.codeElements.Variable;
+import oop.ex6.codeElements.codeLines.*;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -147,8 +146,6 @@ public class LineFactory {
 		return new LineMethodCall(myVars, m.group(1));
 	}
 
-	private String clean(String str) {
-		return str.replaceAll("\\s","");
-	}
+	private String clean(String str) {return str.replaceAll("\\s","");}
 
 }
